@@ -1,0 +1,27 @@
+@startuml
+left to right direction
+
+actor "Responsable de formation" as Admin
+actor "Formateur" as Formateur
+
+' Sprint 1
+rectangle "Sprint 1 - Planification des sessions de formation" {
+
+    usecase "Consulter les statistiques" as UC1
+    usecase "Création de planning" as UC2
+
+}
+
+
+
+Admin -- UC1
+Admin -- UC2
+
+
+Formateur -- UC2
+
+
+
+
+
+@enduml

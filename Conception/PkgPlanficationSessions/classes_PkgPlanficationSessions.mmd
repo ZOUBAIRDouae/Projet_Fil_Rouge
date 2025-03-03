@@ -1,0 +1,95 @@
+classDiagram
+
+namespace PkgPlanficationSessions {
+  class Planification
+  class Session
+  class Module
+  class Competence
+  class Projet
+}
+
+namespace PkgCompetences {
+  class Competence 
+  class Module
+}
+
+class Competence {
+
+  id : Integer
+  nom : String
+  description : Text
+
+}
+
+class Module {
+  id : Integer
+  nom : String
+  description : Text
+  
+}
+
+namespace PkgCreationProjet {
+  class Projet
+}
+
+class Projet {
+  id : Integer
+  titre : String
+  description : Text
+  statut : String
+}
+
+namespace PkgFormation {
+  class Module
+  class Formateur
+  class AnneeFormation
+}
+
+class Formateur {
+  id : Integer
+  nom : String
+  prenom : String
+  email : String
+  telephone : String
+}
+
+
+class AnneeFormation {
+  id : Integer
+  date_debut : date
+  date_fin : date
+}
+
+
+class Session{
+  id : Integer
+  date_debut : date
+  date_fin : date
+  num_semaine : Integer
+  statut : String 
+
+
+}
+
+%% type : cc1, cc2, EFM
+class Evaluation{
+  id : Integer
+  type : enum
+  note : Integer
+}
+class Planification{
+ id : Integer
+ nom : String
+}
+
+
+Session "*" --> "*" Competence
+Session "1" --> "*" Evaluation
+Module "1" --> "*" Competence
+Session "1" --> "1" Projet
+Evaluation "*" --> "1" Module
+
+
+Planification "1" --> "*" Session
+Planification "1" --> "1" Formateur  
+Planification "*" --> "1" AnneeFormation
