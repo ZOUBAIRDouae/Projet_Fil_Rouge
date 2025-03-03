@@ -1,0 +1,29 @@
+@startuml
+left to right direction
+
+actor "Responsable de formation" as Admin
+actor "Formateur" as Formateur
+
+
+' Sprint 2
+rectangle "Sprint 2 - Planification des sessions de formation" {
+
+    usecase "Mettre à jour le planning" as UC2
+    usecase "Envoyer notifications automatiques" as UC3
+    usecase "Afficher le planning en ligne" as UC4
+    usecase "Créer une session de formation" as UC5
+}
+
+
+
+' Relations Sprint 2
+Admin -- UC2
+Admin -- UC3
+
+Formateur -- UC2
+Formateur -- UC4
+Formateur -- UC5
+
+
+
+@enduml
