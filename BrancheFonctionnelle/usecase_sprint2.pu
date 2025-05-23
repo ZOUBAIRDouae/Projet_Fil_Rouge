@@ -6,12 +6,12 @@ actor "Formateur" as Formateur
 
 
 ' Sprint 2
-rectangle "Sprint 2 - Planification des sessions de formation" {
+rectangle "Sprint 2 - Planification de formation" {
 
-    usecase "Mettre à jour le planning" as UC2
+    usecase "Création de planning" as UC2
     usecase "Envoyer notifications automatiques" as UC3
     usecase "Afficher le planning en ligne" as UC4
-    usecase "Créer une session de formation" as UC5
+    usecase "Creation des briefs" as UC5
 }
 
 

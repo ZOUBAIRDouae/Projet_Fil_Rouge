@@ -1,11 +1,11 @@
 classDiagram
 
-namespace PkgPlanficationSessions {
-  class Planification
-  class Session
+namespace PkgPlanficationFormations {
+  class PlanAnnuel
+  class Seance
   class Module
   class Competence
-  class Projet
+  class BriefProjet
 }
 
 namespace PkgCompetences {
@@ -14,7 +14,6 @@ namespace PkgCompetences {
 }
 
 class Competence {
-
   id : Integer
   nom : String
   description : Text
@@ -28,11 +27,11 @@ class Module {
   
 }
 
-namespace PkgCreationProjet {
-  class Projet
+namespace PkgCreationBriefProjet {
+  class BriefProjet
 }
 
-class Projet {
+class BriefProjet {
   id : Integer
   titre : String
   description : Text
@@ -42,7 +41,6 @@ class Projet {
 namespace PkgFormation {
   class Module
   class Formateur
-  class AnneeFormation
 }
 
 class Formateur {
@@ -51,45 +49,43 @@ class Formateur {
   prenom : String
   email : String
   telephone : String
+  motDePasse : String
 }
 
 
-class AnneeFormation {
-  id : Integer
-  date_debut : date
-  date_fin : date
-}
 
 
-class Session{
+class Seance{
   id : Integer
-  date_debut : date
-  date_fin : date
+  heure_debut : date
+  heure_fin : date
   num_semaine : Integer
-  statut : String 
-
 
 }
 
-%% type : cc1, cc2, EFM
+%% type : cc1, cc2, cc3, EFM
 class Evaluation{
   id : Integer
-  type : enum
-  note : Integer
+  type : String
 }
-class Planification{
+
+class PlanAnnuel{
  id : Integer
- nom : String
+ date_debut : date
+ date_fin : date
+ filiere : String
 }
 
 
-Session "*" --> "*" Competence
-Session "1" --> "*" Evaluation
+
+Seance "*" --> "1" Evaluation
+BriefProjet "*" --> "1" Module
 Module "1" --> "*" Competence
-Session "1" --> "1" Projet
+Seance "*" --> "1" BriefProjet
 Evaluation "*" --> "1" Module
+BriefProjet "1" --> "1" Evaluation
 
 
-Planification "1" --> "*" Session
-Planification "1" --> "1" Formateur  
-Planification "*" --> "1" AnneeFormation
+
+PlanAnnuel "1" --> "*" Module
+PlanAnnuel "1" --> "*" Formateur  
