@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Seance;
+use Illuminate\Support\Facades\DB;
 
 class SeanceSeeder extends Seeder
 {
@@ -13,21 +12,21 @@ class SeanceSeeder extends Seeder
      */
     public function run(): void
     {
-        \DB::table('seances')->insert([
+        DB::table('seances')->insert([
             [
-                'date_debut' => '2025-03-01',
-                'date_fin' => '2025-03-05',
+                'heure_debut' => '2025-03-01 09:00:00',
+                'heure_fin' => '2025-03-01 12:00:00',
                 'num_semaine' => 9,
-                'heures' => 20,
+                'heures' => 3,
                 'plan_annuel_id' => 1,
                 'formateur_id' => 1,
                 'module_id' => 1,
             ],
             [
-                'date_debut' => '2025-04-10',
-                'date_fin' => '2025-04-15',
+                'heure_debut' => '2025-04-10 14:00:00',
+                'heure_fin' => '2025-04-10 17:00:00',
                 'num_semaine' => 15,
-                'heures' => 15,
+                'heures' => 3,
                 'plan_annuel_id' => 2,
                 'formateur_id' => 2,
                 'module_id' => 2,

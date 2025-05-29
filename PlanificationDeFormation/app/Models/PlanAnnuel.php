@@ -12,4 +12,14 @@ class PlanAnnuel extends Model
     {
         return $this->hasMany(Seance::class);
     }
+
+    public function modules()
+    {
+        return $this->hasMany(Module::class);
+    }
+
+    public function BriefProjet()
+    {
+        return $this->hasMany(BriefProjet::class);
+    }
 }

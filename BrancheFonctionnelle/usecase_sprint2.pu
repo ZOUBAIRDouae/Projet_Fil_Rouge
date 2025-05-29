@@ -8,10 +8,9 @@ actor "Formateur" as Formateur
 ' Sprint 2
 rectangle "Sprint 2 - Planification de formation" {
 
-    usecase "Création de planning" as UC2
+    usecase "CRUD planning" as UC2
     usecase "Envoyer notifications automatiques" as UC3
-    usecase "Afficher le planning en ligne" as UC4
-    usecase "Creation des briefs" as UC5
+    usecase "CRUD  briefs" as UC5
 }
 
 
@@ -21,7 +20,6 @@ Admin -- UC2
 Admin -- UC3
 
 Formateur -- UC2
-Formateur -- UC4
 Formateur -- UC5
 
 
