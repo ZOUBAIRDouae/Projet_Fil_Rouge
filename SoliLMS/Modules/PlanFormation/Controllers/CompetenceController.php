@@ -2,34 +2,35 @@
 
 namespace Modules\PlanFormation\Controllers;
 
-use Modules\Blog\Services\CommentService;
+use Modules\PlanFormation\Services\CompetenceService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class CompetenceController extends Controller
 {
-    protected $commentService;
+    protected $competenceService;
 
-    public function __construct(CommentService $commentService)
+    public function __construct(CompetenceService $competenceService)
     {
-        $this->commentService = $commentService;
+        $this->competenceService = $competenceService;
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'text' => 'required',
-            'commentable_id' => 'required|integer',
-            'commentable_type' => 'required|string',
+            'nom' => 'required',
+            'description' => 'required',
+            // 'commentable_id' => 'required|integer',
+            // 'commentable_type' => 'required|string',
         ]);
 
-        $this->commentService->createComment($validated);
-        return redirect()->back()->with('success', 'Commentaire créé avec succès');
+        $this->competenceService->createCompetence($validated);
+        return redirect()->back()->with('success', 'Competence créé avec succès');
     }
 
     public function destroy(string $id)
     {
-        $this->commentService->deleteComment($id);
-        return redirect()->back()->with('success', 'Commentaire supprimé avec succès');
+        $this->competenceService->deleteCompetence($id);
+        return redirect()->back()->with('success', 'Competence supprimé avec succès');
     }
 }
