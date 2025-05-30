@@ -28,10 +28,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
-            "Modules\\Blog\\": "Modules/Blog/"
+            "Modules\\PlanFormation\\": "Modules/PlanFormation/"
         },
         "classmap": [
-            "Modules/Blog/database/factories"
+            "Modules/PlanFormation/database/factories"
         ]
     },
     "autoload-dev": {

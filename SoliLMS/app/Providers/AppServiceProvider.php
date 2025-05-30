@@ -4,21 +4,21 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
-use Modules\Blog\App\Providers\BlogServiceProvider;
+use Modules\PlanFormation\App\Providers\PlanServiceProvider;
 
-use App\Models\Article;
-use App\Policies\ArticlePolicy;
+use App\Models\PlanAnnuel;
+use App\Policies\PlanPolicy;
 
 class AppServiceProvider extends ServiceProvider
 {
 
     protected $policies = [
-        Article::class => ArticlePolicy::class,
+        PlanAnnuel::class => PlanPolicy::class,
     ];
     
     public function register(): void
     {
-        $this->app->register(BlogServiceProvider::class);
+        $this->app->register(PlanServiceProvider::class);
     }
 
     /**

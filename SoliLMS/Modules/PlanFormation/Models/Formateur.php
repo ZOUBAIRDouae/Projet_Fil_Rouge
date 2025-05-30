@@ -14,4 +14,9 @@ class Formateur extends Model
     {
         return $this->hasMany(Seance::class);
     }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
 }

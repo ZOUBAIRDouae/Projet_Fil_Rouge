@@ -55,6 +55,11 @@ class User extends Authenticatable
         return $this->belongsTo(PlanAnnuel::class);
     }
 
+    public function formateur(){
+        return $this->hasOne(Formateur::class);
+    }
+
+
     // public function comments()
     // {
     //     return $this->hasMany(Comment::class);

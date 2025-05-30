@@ -22,4 +22,9 @@ class PlanAnnuel extends Model
     {
         return $this->hasMany(BriefProjet::class);
     }
+
+    public function formateur()
+    {
+        return $this->belongsTo(Formateur::class);
+    }
 }

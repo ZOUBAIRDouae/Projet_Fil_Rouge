@@ -1,9 +1,9 @@
 <?php
 
-namespace Modules\Blog\App\Policies;
+namespace Modules\PlanFormation\App\Policies;
 
-use Modules\Blog\Models\Article;
-use Modules\Blog\Models\User;
+use Modules\PlanFormation\Models\PlanAnnuel;
+use Modules\PlanFormation\Models\User;
 use Illuminate\Auth\Access\Response;
 
 class ArticlePolicy
