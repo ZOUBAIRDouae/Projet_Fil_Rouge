@@ -1,14 +1,14 @@
 <?php
 
-namespace Modules\Blog\Controllers;
+namespace Modules\PlanFormation\Controllers;
 
-use Modules\Blog\Services\CategoryService;
+use Modules\PlanFormation\Services\CategoryService;
 
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class ModuleController extends Controller
 {
     protected $categoryService;
 

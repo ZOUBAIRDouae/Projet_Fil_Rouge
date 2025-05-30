@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Blog\Controllers;
+namespace Modules\PlanFormation\Controllers;
 
 use Illuminate\Http\Request;
 

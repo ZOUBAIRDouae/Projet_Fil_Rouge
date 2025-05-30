@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Blog\Models;
+namespace Modules\PlanFormation\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -51,8 +51,8 @@ class User extends Authenticatable
         ];
     }
 
-    public function articles(){
-        return $this->hasMany(Article::class);
+    public function plans(){
+        return $this->belongsTo(PlanAnnuel::class);
     }
 
     // public function comments()

@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('comments', function (Blueprint $table) {
-            //
-            $table->unsignedBigInteger('user_id')->nullable();
+        Schema::create('plan_annuels', function (Blueprint $table) {
+            $table->id();
+            $table->date('date_debut');
+            $table->date('date_fin');
+            $table->string('filiere');
+            $table->timestamps();
         });
     }
 
@@ -22,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('comments', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('plan_annuels');
     }
 };

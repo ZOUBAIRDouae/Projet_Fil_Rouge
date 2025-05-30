@@ -1,23 +1,23 @@
 <?php
 
-namespace Modules\Blog\Controllers;
+namespace Modules\PlanFormation\Controllers;
 
 use App\Http\Controllers\Controller;
 
-use Modules\Blog\Models\Article;
-use Modules\Blog\Models\Tag;
-use Modules\Blog\Models\Category;
+use Modules\PlanFormation\Models\Article;
+use Modules\PlanFormation\Models\Tag;
+use Modules\PlanFormation\Models\Category;
 
 
-use Modules\Blog\Services\ArticleService;
-use Modules\Blog\Requests\ArticleRequest;
+use Modules\PlanFormation\Services\ArticleService;
+use Modules\PlanFormation\Requests\ArticleRequest;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use Maatwebsite\Excel\Facades\Excel;
-use Modules\Blog\App\Exports\ArticleExport;
-use Modules\Blog\App\Imports\ArticleImport;
+use Modules\PlanFormation\App\Exports\PlanExport;
+use Modules\PlanFormation\App\Imports\PlanImport;
 
 
 

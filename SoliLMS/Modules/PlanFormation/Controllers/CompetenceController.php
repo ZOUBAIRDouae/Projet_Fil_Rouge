@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Blog\Controllers;
+namespace Modules\PlanFormation\Controllers;
 
 use Modules\Blog\Services\CommentService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class CommentController extends Controller
+class CompetenceController extends Controller
 {
     protected $commentService;
 
