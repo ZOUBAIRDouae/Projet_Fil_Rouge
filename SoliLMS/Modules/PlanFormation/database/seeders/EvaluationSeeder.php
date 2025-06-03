@@ -1,21 +1,27 @@
 <?php
 
-namespace Modules\PlanFormation\Database\Seeders;
+namespace Modules\PlanFormation\database\seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Modules\PlanFormation\Models\Evaluation;
 
-class EvaluationSeeder extends Seeder
+class SeanceSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        \DB::table('evaluations')->insert([
-            ['type' => 'examen', 'brief_projet_id' => 1],
-            ['type' => 'presentation', 'brief_projet_id' => 2],
+        DB::table('evaluations')->insert([
+            [
+                'type' => 'CC',
+                'brief_projet_id' => 1,
+            ],
+            [
+                'type' => 'EFM',
+                'brief_projet_id' => 2,
+            ],
         ]);
     }
 }

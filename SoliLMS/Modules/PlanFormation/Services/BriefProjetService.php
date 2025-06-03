@@ -17,12 +17,12 @@ class BriefProjetService
 
     public function createBrief(array $data)
     {
-        return Tag::create($data);
+        return BriefProjet::create($data);
     }
 
     public function deleteBrief(string $id)
     {
-        $tag = BriefProjet::findOrFail($id);
-        $tag->delete();
+        $brief = BriefProjet::findOrFail($id);
+        $brief->delete();
     }
 }

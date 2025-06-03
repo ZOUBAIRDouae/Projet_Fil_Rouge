@@ -1,25 +1,26 @@
 <?php
 
-namespace Modules\Blog\App\Imports;
+namespace Modules\PlanFormation\App\Imports;
 
-use Modules\Blog\Models\Article;
-use Modules\Blog\Controller\ArticleController;
+use Modules\PlanFormation\Models\PlanAnnuel;
+use Modules\PlanFormation\Controller\PlanController;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 
-class ArticleImport implements ToModel, WithHeadingRow
+class PlanImport implements ToModel, WithHeadingRow
 {
     public function model(array $row)
     {
-        if (!isset($row['title'], $row['content'], $row['category_id'])) {
+        if (!isset($row['date_debut'], $row['date_fin'], $row['filiere'], $row['formateur_id'])) {
             return null; // ignore la ligne invalide
         }
     
         return new Article([
-            'title' => $row['title'],
-            'content' => $row['content'],
-            'category_id' => (int) $row['category_id'],
+            'date_debut' => $row['date_debut'],
+            'date_fin' => $row['date_fin'],
+            'filiere' => $row['filiere'],
+            'formateur_id' => (int) $row['formateur_id'],
         ]);
     }
 }

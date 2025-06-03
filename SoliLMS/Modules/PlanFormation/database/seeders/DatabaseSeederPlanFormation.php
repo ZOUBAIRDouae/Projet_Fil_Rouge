@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\PlanFormation\Database\Seeders;
+namespace Modules\PlanFormation\database\seeders;
 
 use Modules\PlanFormation\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -9,7 +9,7 @@ use Illuminate\Database\Seeder;
 
 
 
-class DatabaseSeederBlog extends Seeder
+class DatabaseSeederPlanFormation extends Seeder
 {
     /**
      * Seed the application's database.
@@ -22,6 +22,7 @@ class DatabaseSeederBlog extends Seeder
         $this->call([
             PlanAnnuelSeeder::class,
             FormateurSeeder::class,
+            UserSeeder::class,
             ModuleSeeder::class,
             CompetenceSeeder::class,
             BriefProjetSeeder::class,

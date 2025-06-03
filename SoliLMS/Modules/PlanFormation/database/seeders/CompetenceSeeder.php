@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\PlanFormation\Database\Seeders;
+namespace Modules\PlanFormation\database\seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,9 +13,15 @@ class CompetenceSeeder extends Seeder
      */
     public function run(): void
     {
-        \DB::table('competences')->insert([
-            ['nom' => 'PHP', 'description' => 'Langage serveur'],
-            ['nom' => 'UI/UX', 'description' => 'Design d’interface'],
+        DB::table('competences')->insert([
+            [
+                'nom' => 'PHP',
+                'description' => 'Language serveur'
+            ],
+            [
+                'nom' => 'UI/UX',
+                'description' => 'Design d’interface'
+            ],
         ]);
     }
 }

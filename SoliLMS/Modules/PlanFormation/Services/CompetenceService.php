@@ -1,19 +1,19 @@
 <?php
 
-namespace Modules\Blog\Services;
+namespace Modules\PlanFormation\Services;
 
-use Modules\Blog\Models\Comment;
+use Modules\PlanFormation\Models\Competence;
 
-class CommentService
+class CompetenceService
 {
-    public function createComment(array $data)
+    public function createCompetence(array $data)
     {
-        return Comment::create($data);
+        return Competence::create($data);
     }
 
-    public function deleteComment(string $id)
+    public function deleteCompetence(string $id)
     {
-        $comment = Comment::findOrFail($id);
-        $comment->delete();
+        $competence = Competence::findOrFail($id);
+        $competence->delete();
     }
 }

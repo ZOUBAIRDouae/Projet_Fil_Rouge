@@ -4,13 +4,14 @@ namespace Modules\PlanFormation\Controllers;
 
 use App\Http\Controllers\Controller;
 
-use Modules\PlanFormation\Models\Article;
-use Modules\PlanFormation\Models\Tag;
-use Modules\PlanFormation\Models\Category;
+use Modules\PlanFormation\Models\PlanAnnuel;
+use Modules\PlanFormation\Models\Module;
+use Modules\PlanFormation\Models\BriefProjet;
+use Modules\PlanFormation\Models\Competence;
 
 
-use Modules\PlanFormation\Services\ArticleService;
-use Modules\PlanFormation\Requests\ArticleRequest;
+use Modules\PlanFormation\Services\PlanService;
+use Modules\PlanFormation\Requests\PlanRequest;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,97 +23,99 @@ use Modules\PlanFormation\App\Imports\PlanImport;
 
 
 
-class ArticleController extends Controller
+class PlanController extends Controller
 {
-    protected $articleService;
+    protected $planService;
 
-    public function __construct(ArticleService $articleService)
+    public function __construct(PlanService $planService)
     {
-        $this->articleService = $articleService;
+        $this->planService = $planService;
     }
 
     public function index(Request $request)
     {
-        $data = $this->articleService->index($request);
+        $data = $this->planService->index($request);
         
         if (Auth::check() && Auth::user()->roles->contains('name', 'admin')) {
-            return view('Blog::admin.article.index', $data);
+            return view('PlanFormation::admin.plan.index', $data);
         } else {
-            return view('Blog::public.index', $data);
+            return view('PlanFormation::public.index', $data);
         }
     }
 
     public function create()
     {
         if (!Auth::check() || !Auth::user()->roles->contains('name', 'admin')) {
-            return redirect()->route('articles.index');
+            return redirect()->route('plans.index');
         }
 
-        $categories = Category::all();
-        $allTags = Tag::all();
+        $modules = Module::all();
+        $briefs = BriefProjet::all();
+        $competences = Competence::all();
 
-        return view('Blog::admin.article.create', compact('categories', 'allTags'));
+        return view('PlanFormation::admin.plan.create', compact('modules', 'briefs', 'competences'));
     }
 
-    public function store(ArticleRequest $request)
+    public function store(PlanRequest $request)
     {
         if (!Auth::check() || !Auth::user()->roles->contains('name', 'admin')) {
-            return redirect()->route('articles.index');
+            return redirect()->route('plans.index');
         }
 
-        $this->articleService->create($request);
+        $this->planService->create($request);
 
-        return redirect()->route('articles.index')->with('success', 'L\'article a bien été créé');
+        return redirect()->route('plans.index')->with('success', 'Plan a bien été créé');
     }
 
     public function show(string $id)
     {
-        $article = $this->articleService->show($id);
-        $commentableId = $article->id;
-        $commentableType = Article::class;
+        $plan = $this->planService->show($id);
+        // $commentableId = $article->id;
+        // $commentableType = Article::class;
 
         if (Auth::check() && Auth::user()->roles->contains('name', 'admin')) {
-            return view('Blog::admin.article.show', compact('article', 'commentableId', 'commentableType'));
+            return view('PlanFormation::admin.plan.show', compact('plan'));
         } else {
-            return view('Blog::public.show', compact('article', 'commentableId', 'commentableType'));
+            return view('PlanFormation::public.show', compact('plan'));
         }
     }
 
     public function edit($id)
     {
         if (!Auth::check() || !Auth::user()->roles->contains('name', 'admin')) {
-            return redirect()->route('Blog::articles.index');
+            return redirect()->route('PlanFormation::plans.index');
         }
 
-        $article = Article::findOrFail($id);
-        $this->authorize('edit', $article);
-        $categories = Category::all();
-        $allTags = Tag::all();
-        $selectedTags = $article->tags->pluck('id')->toArray();
+        $article = PlanAnnuel::findOrFail($id);
+        $this->authorize('edit', $plan);
+        $modules = Module::all();
+        $briefs = BriefProjet::all();
+        $competences = Competence::all();
+        $selectedBriefs = $plan->briefs->pluck('id')->toArray();
 
-        return view('Blog::admin.article.edit', compact('article', 'categories', 'allTags', 'selectedTags'));
+        return view('PlanFormation::admin.plan.edit', compact('plan', 'modules', 'briefs', 'selectedBriefs', 'competences'));
     }
 
     public function update(Request $request, $id)
     {
         if (!Auth::check() || !Auth::user()->roles->contains('name', 'admin')) {
-            return redirect()->route('Blog::articles.index');
+            return redirect()->route('PlanFormation::plans.index');
         }
 
-        $this->articleService->update($request, $id);
+        $this->planService->update($request, $id);
 
-        return redirect()->route('Blog::articles.index')->with('success', 'L\'article a bien été modifié');
+        return redirect()->route('PlanFormation::plans.index')->with('success', 'Plan a bien été modifié');
     }
 
     public function destroy(string $id)
     {
         if (!Auth::check() || !Auth::user()->roles->contains('name', 'admin')) {
-            return redirect()->route('Blog::articles.index');
+            return redirect()->route('PlanFormation::plans.index');
         }
 
-        $this->articleService->destroy($id);
+        $this->planService->destroy($id);
 
-        return redirect()->route('articles.index')->with('success', 'L\'article a bien été supprimé');
+        return redirect()->route('plans.index')->with('success', 'Plan a bien été supprimé');
     }
 
     public function export($format = 'xlsx')
@@ -123,7 +126,7 @@ class ArticleController extends Controller
             return redirect()->back()->with('error', 'Invalid format.');
         }
 
-        return Excel::download(new ArticleExport, "article.$format", $format === 'csv' ? \Maatwebsite\Excel\Excel::CSV : \Maatwebsite\Excel\Excel::XLSX);
+        return Excel::download(new PlanExport, "article.$format", $format === 'csv' ? \Maatwebsite\Excel\Excel::CSV : \Maatwebsite\Excel\Excel::XLSX);
 
     }
 
@@ -135,9 +138,9 @@ class ArticleController extends Controller
 
         
 
-        Excel::import(new ArticleImport, $request->file('file'));
+        Excel::import(new PlanImport, $request->file('file'));
 
-        return redirect()->back()->with('success', 'Articles importés avec succès !');
+        return redirect()->back()->with('success', 'Plan importés avec succès !');
     }
 
 

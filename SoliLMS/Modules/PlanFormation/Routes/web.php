@@ -5,46 +5,46 @@ use Illuminate\Support\Facades\Route;
 
 use Illuminate\Support\Facades\Auth;
 
-use Modules\Blog\Controllers\ArticleController;
-use Modules\Blog\Controllers\CategoryController;
-use Modules\Blog\Controllers\CommentController;
-use Modules\Blog\Controllers\TagController;
+use Modules\PlanFormation\Controllers\PlanController;
+use Modules\PlanFormation\Controllers\BriefProjetController;
+use Modules\PlanFormation\Controllers\ModuleController;
+use Modules\PlanFormation\Controllers\CompetenceController;
 
 
 
 
 Auth::routes();
 
-Route::prefix('articles')->group(function () {
-  Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
-  Route::get('/create', [ArticleController::class, 'create'])->name('articles.create');
-  Route::post('/store', [ArticleController::class, 'store'])->name('articles.store');
-  Route::get('/{article}', [ArticleController::class, 'show'])->name('articles.show');
-  Route::get('/{article}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
-  Route::put('/{article}', [ArticleController::class, 'update'])->name('articles.update');
-  Route::delete('/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
+Route::prefix('plans')->group(function () {
+  Route::get('/', [PlanController::class, 'index'])->name('plans.index');
+  Route::get('/create', [PlanController::class, 'create'])->name('plans.create');
+  Route::post('/store', [PlanController::class, 'store'])->name('plans.store');
+  Route::get('/{plan}', [PlanController::class, 'show'])->name('plans.show');
+  Route::get('/{plan}/edit', [PlanController::class, 'edit'])->name('plans.edit');
+  Route::put('/{plan}', [PlanController::class, 'update'])->name('plans.update');
+  Route::delete('/{plan}', [PlanController::class, 'destroy'])->name('plans.destroy');
 });
 
 
 Route::middleware('auth' , 'role:admin')->group(function () { 
-  Route::prefix('tags')->group(function () {
-    Route::get('/', [TagController::class, 'index'])->name('tags.index');
-    Route::get('/create', [TagController::class, 'create'])->name('tags.create');
-    Route::post('/store', [TagController::class, 'store'])->name('tags.store');
-    Route::delete('/tags/{id}', [TagController::class, 'destroy'])->name('tags.destroy');
+  Route::prefix('briefs')->group(function () {
+    Route::get('/', [BriefProjetController::class, 'index'])->name('briefs.index');
+    Route::get('/create', [BriefProjetController::class, 'create'])->name('briefs.create');
+    Route::post('/store', [BriefProjetController::class, 'store'])->name('briefs.store');
+    Route::delete('/briefs/{id}', [BriefProjetController::class, 'destroy'])->name('briefs.destroy');
 });
 
-  Route::prefix('categories')->group(function () {
-    Route::get('/', [CategoryController::class, 'index'])->name('categories.index');
-    Route::get('/create', [CategoryController::class, 'create'])->name('categories.create');
-    Route::post('/store', [CategoryController::class, 'store'])->name('categories.store');
-    Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+  Route::prefix('modules')->group(function () {
+    Route::get('/', [ModuleController::class, 'index'])->name('modules.index');
+    Route::get('/create', [ModuleController::class, 'create'])->name('modules.create');
+    Route::post('/store', [ModuleController::class, 'store'])->name('modules.store');
+    Route::delete('/{module}', [ModuleController::class, 'destroy'])->name('modules.destroy');
 });
 });
 
 
-Route::get('/',[ ArticleController::class , 'index'])->name('public.index');
-Route::get('/{article}',[ ArticleController::class , 'show'])->name('public.show');
+Route::get('/',[ PlanController::class , 'index'])->name('public.index');
+Route::get('/{plan}',[ PlanController::class , 'show'])->name('public.show');
 
 
 
@@ -54,14 +54,14 @@ Auth::routes();
 
 
 Route::middleware('auth')->group(function () {
-  Route::post('/store', [CommentController::class, 'store'])->name('comments.store');
-  Route::delete('/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+  Route::post('/store', [CompetenceController::class, 'store'])->name('competences.store');
+  Route::delete('/{competence}', [CompetenceController::class, 'destroy'])->name('competences.destroy');
  
 });
 
 
-Route::get('article/export/{format?}', [ArticleController::class, 'export'])->name('article.export');
-Route::post('/articles/import', [ArticleController::class, 'import'])->name('articles.import');
+Route::get('plan/export/{format?}', [PlanController::class, 'export'])->name('plan.export');
+Route::post('/plans/import', [PlanController::class, 'import'])->name('plans.import');
 
 
 

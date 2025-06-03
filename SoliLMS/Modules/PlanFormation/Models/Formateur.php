@@ -3,10 +3,14 @@
 namespace Modules\PlanFormation\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Traits\HasRoles;
+
 
 class Formateur extends Model
 {
-    protected $fillable = ['nom', 'prenom', 'email', 'telephone', 'motDePasse'];
+    use HasRoles;
+    
+    protected $fillable = ['user_id','nom', 'prenom', 'email', 'telephone', 'motDePasse'];
 
     protected $hidden = ['motDePasse'];
 

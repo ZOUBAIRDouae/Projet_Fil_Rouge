@@ -6,7 +6,7 @@
     <div class="col-md-8">
       <div class="card shadow-sm border-0">
         <div class="card-header bg-success text-white text-center">
-          <h5>Ajouter un Article</h5>
+          <h5>Ajouter un Plan</h5>
         </div>
 
         <div class="card-body">

@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Blog\Requests;
+namespace Modules\PlanFormation\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ArticleRequest extends FormRequest
+class PlanRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -31,12 +31,11 @@ class ArticleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255',
-            'category' => 'required|exists:categories,id',
-            'content' => 'required|string',
-            'tags' => 'array',
-            'tags.*' => 'exists:tags,id',
-            'user_id'    => 'required|exists:users,id',
+            'module' => 'required|exists:modules,id',
+            'brief' => 'required|exists:briefs,id',
+            'competence' => 'required|exists:competences,id',
+            'briefs' => 'array',
+            'briefs.*' => 'exists:briefs,id',
         ];
     }
 }

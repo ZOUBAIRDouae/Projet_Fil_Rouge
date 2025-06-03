@@ -1,15 +1,15 @@
 <?php
 
-namespace Modules\Blog\Services;
+namespace Modules\PlanFormation\Services;
 
-use Modules\Blog\Models\Category;
+use Modules\PlanFormation\Models\Module;
 use Illuminate\Http\Request;
 
-class CategoryService
+class ModuleService
 {
-    public function getCategories(Request $request)
+    public function getModules(Request $request)
     {
-        $query = Category::query();
+        $query = Module::query();
 
         if ($request->has('search') && $request->search != '') {
             $query->where('name', 'like', '%' . $request->search . '%');
@@ -18,16 +18,17 @@ class CategoryService
         return $query->paginate(10);
     }
 
-    public function createCategory(array $data)
+    public function createModule(array $data)
     {
-        return Category::create([
-            'name' => $data['name'],
+        return Module::create([
+            'nom' => $data['nom'],
+            'description' => $data['description']
         ]);
     }
 
-    public function deleteCategory(string $id)
+    public function deleteModule(string $id)
     {
-        $category = Category::findOrFail($id);
-        $category->delete();
+        $module = Module::findOrFail($id);
+        $module->delete();
     }
 }

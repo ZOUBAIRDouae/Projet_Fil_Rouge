@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\PlanFormation\Database\Seeders;
+namespace Modules\PlanFormation\database\seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,9 +13,15 @@ class ModuleSeeder extends Seeder
      */
     public function run(): void
     {
-        \DB::table('modules')->insert([
-            ['nom' => 'Laravel', 'description' => 'Framework PHP'],
-            ['nom' => 'UX Design', 'description' => 'Introduction au design centré utilisateur'],
+        DB::table('modules')->insert([
+            [
+                'nom' => 'Laravel',
+                'description' => 'Framework PHP'
+            ],
+            [
+                'nom' => 'UX Design',
+                'description' => 'Introduction au design centré utilisateur'
+            ],
         ]);
     }
 }

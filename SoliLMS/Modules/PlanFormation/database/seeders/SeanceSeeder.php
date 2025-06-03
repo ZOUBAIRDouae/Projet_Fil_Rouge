@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\PlanFormation\Database\Seeders;
+namespace Modules\PlanFormation\database\seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;

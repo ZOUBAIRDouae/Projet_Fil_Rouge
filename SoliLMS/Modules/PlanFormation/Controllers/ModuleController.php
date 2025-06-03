@@ -2,7 +2,7 @@
 
 namespace Modules\PlanFormation\Controllers;
 
-use Modules\PlanFormation\Services\CategoryService;
+use Modules\PlanFormation\Services\ModuleService;
 
 use App\Http\Controllers\Controller;
 
@@ -10,37 +10,38 @@ use Illuminate\Http\Request;
 
 class ModuleController extends Controller
 {
-    protected $categoryService;
+    protected $moduleService;
 
-    public function __construct(CategoryService $categoryService)
+    public function __construct(ModuleService $moduleService)
     {
-        $this->categoryService = $categoryService;
+        $this->moduleService = $moduleService;
     }
 
     public function index(Request $request)
     {
-        $categories = $this->categoryService->getCategories($request);
-        return view('Blog::admin.category.index', compact('categories'));
+        $modules = $this->moduleService->getModules($request);
+        return view('PlanFormation::admin.module.index', compact('modules'));
     }
 
     public function create()
     {
-        return view('Blog::admin.category.create');
+        return view('PlanFormation::admin.module.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'nom' => 'required|string|max:255',
+            'description' => 'required|string',
         ]);
 
-        $this->categoryService->createCategory($request->all());
-        return redirect()->route('Blog::categories.index')->with('success', 'Catégorie créée avec succès');
+        $this->moduleService->createModule($request->all());
+        return redirect()->route('PlanFormation::modules.index')->with('success', 'Module créée avec succès');
     }
 
     public function destroy(string $id)
     {
-        $this->categoryService->deleteCategory($id);
-        return redirect()->route('Blog::categories.index')->with('success', 'Catégorie supprimée avec succès');
+        $this->moduleService->deleteModule($id);
+        return redirect()->route('PlanFormation::modules.index')->with('success', 'Module supprimée avec succès');
     }
 }

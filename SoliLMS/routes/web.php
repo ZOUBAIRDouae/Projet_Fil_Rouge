@@ -1,6 +1,6 @@
 <?php
 
-require base_path('Modules\Blog\Routes\web.php');
+require base_path('Modules\PlanFormation\Routes\web.php');
 
 
 

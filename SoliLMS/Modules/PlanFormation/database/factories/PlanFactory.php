@@ -1,17 +1,18 @@
 <?php
 
-namespace Modules\Blog\Database\Factories;
+namespace Modules\PlanFormation\Database\Factories;
 
 
-use Modules\Blog\Models\Article;
+use Modules\PlanFormation\Models\PlanAnnuel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-use Modules\Blog\Models\User;
+use Modules\PlanFormation\Models\User;
+use Modules\PlanFormation\Models\Formateur;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Article>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PlanAnnuel>
  */
-class ArticleFactory extends Factory
+class PlanFactory extends Factory
 {
     /**
      * Define the model's default state.

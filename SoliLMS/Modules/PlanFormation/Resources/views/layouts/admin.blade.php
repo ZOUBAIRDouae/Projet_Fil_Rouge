@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Blog</title>
+    <title>SoliLMS</title>
 
     @vite(['resources/sass/admin.scss'])
 </head>
@@ -63,26 +63,32 @@
         </nav>
 
         <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
-            <div class="sidebar-brand"> <a href="{{ route('articles.index') }}" class="brand-link"><i class="fa-solid fa-blog"></i> <span class="brand-text fw-light">BLOG</span> </a> </div>
+            <div class="sidebar-brand"> <a href="{{ route('plans.index') }}" class="brand-link"><i class="fa-solid fa-blog"></i> <span class="brand-text fw-light">Plan</span> </a> </div>
             <div class="sidebar-wrapper">
                 <nav class="mt-2">
                     <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
                         <li class="nav-item"> 
-                            <a href="{{ route('articles.index') }}" class="nav-link"> 
+                            <a href="{{ route('plans.index') }}" class="nav-link"> 
                             <i class="fa-solid fa-newspaper"></i>
                                 <p>Dashboard</p>
                             </a> 
                         </li>
                         <li class="nav-item"> 
-                            <a href="" class="nav-link"> 
+                            <a href="{{ route('modules.index') }}" class="nav-link"> 
                             <i class="fa-solid fa-layer-group"></i>
-                                <p>Categories</p>
+                                <p>Modules</p>
                             </a> 
                         </li>
                         <li class="nav-item"> 
-                            <a href="{{ route('tags.index') }}" class="nav-link"> 
+                            <a href="{{ route('briefs.index') }}" class="nav-link"> 
                             <i class="fa-solid fa-tags"></i>
-                                <p>Tags</p>
+                                <p>Briefs Projets</p>
+                            </a> 
+                        </li>
+                        <li class="nav-item"> 
+                            <a href="{{ route('competences.index') }}" class="nav-link"> 
+                            <i class="fa-solid fa-tags"></i>
+                                <p>Competences</p>
                             </a> 
                         </li>
                     </ul>

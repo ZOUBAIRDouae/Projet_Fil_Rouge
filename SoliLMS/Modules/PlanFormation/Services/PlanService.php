@@ -1,102 +1,107 @@
 <?php
 
-namespace Modules\Blog\Services;
+namespace Modules\PlanFormation\Services;
 
-use Modules\Blog\Models\Article;
-use Modules\Blog\Models\Category;
-use Modules\Blog\Models\Comment;
-use Modules\Blog\Models\Tag;
-use Modules\Blog\Models\User;
+use Modules\PlanFormation\Models\PlanAnnuel;
+use Modules\PlanFormation\Models\Module;
+use Modules\PlanFormation\Models\BriefProjet;
+use Modules\PlanFormation\Models\Competence;
+use Modules\PlanFormation\Models\User;
 
 
 
 use Illuminate\Support\Facades\Auth;
 
-use Modules\Blog\Requests\ArticleRequest;
+use Modules\PlanFormation\Requests\PlanRequest;
 
-class ArticleService
+class PlanService
 {
     public function index($request)
     {
-        $query = Article::query();
+        $query = PlanAnnuel::query();
 
-        // Count for admin dashboard
-        $ArticleCount = Article::count();
-        $CommentCount = Comment::count();
-        $UserCount = User::count();
+        // // Count for admin dashboard
+        // $ModuleCount = Module::count();
+        // $BriefProjetCount = BriefProjet::count();
+        // $CompetenceCount = Competence::count();
+        // $FormateurCount = Formateur::count();
 
         // Filtering
-        if ($request->has('category') && $request->category != '') {
-            $query->where('category_id', $request->category);
+        if ($request->has('module') && $request->module != '') {
+            $query->where('module_id', $request->module);
         }
 
-        if ($request->has('tag') && $request->tag != '') {
-            $query->whereHas('tags', function ($query) use ($request) {
-                $query->where('tags.id', $request->tag);
+        if ($request->has('brief') && $request->brief != '') {
+            $query->whereHas('briefs', function ($query) use ($request) {
+                $query->where('briefs.id', $request->brief);
             });
         }
 
         if ($request->has('search') && $request->search != '') {
             $query->where(function ($query) use ($request) {
-                $query->where('title', 'like', '%' . $request->search . '%')
-                      ->orWhere('content', 'like', '%' . $request->search . '%');
+                $query->where('module_id', 'like', '%' . $request->search . '%')
+                      ->orWhere('brief_id', 'like', '%' . $request->search . '%');
             });
         }
 
         // Pagination
-        $articles = $query->paginate(10);
-        $articles->appends($request->all());
+        $plans = $query->paginate(10);
+        $plans->appends($request->all());
 
-        $categories = Category::all();
-        $tags = Tag::all();
+        $modules = Module::all();
+        $briefs = BriefProjet::all();
+        $competences = Competence::all();
 
-        return compact('articles', 'categories', 'tags', 'ArticleCount', 'CommentCount', 'UserCount');
+        return compact('plans', 'modules', 'briefs', 'competences');
+        // return compact('plans', 'modules', 'briefs', 'ArticleCount', 'CommentCount', 'UserCount');
     }
 
-    public function create(ArticleRequest $request)
+    public function create(PlanRequest $request)
     {
-        $article = Article::create([
-            'title' => $request['title'],
-            'category_id' => $request['category'],
-            'content' => $request['content'],
+        $plan = PlanAnnuel::create([
+            'module_id' => $request['module'],
+            'brief_id' => $request['brief'],
+            'competece_id' => $request['competence'],
             'user_id' => Auth::user()->id,
         ]);
 
-        $article->tags()->attach($request->tags);
+        // $plan->modules()->attach($request->modules);
+        $plan->briefs()->attach($request->briefs);
+        $plan->competences()->attach($request->competences);
 
-        return $article;
+        return $plan;
     }
 
     public function show($id)
     {
-        return Article::with(['category', 'tags', 'comments'])->findOrFail($id);
+        return Article::with(['module', 'briefs', 'competences'])->findOrFail($id);
     }
 
     public function update($request, $id)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'category' => 'required|exists:categories,id',
-            'content' => 'required|string',
-            'tags' => 'array',
-            'tags.*' => 'exists:tags,id',
+            'module' => 'required|exists:modules,id',
+            'brief' => 'required|exists:briefs,id',
+            'competence' => 'required|exists:competences,id',
+            'briefs' => 'array',
+            'briefs.*' => 'exists:briefs,id',
         ]);
 
-        $article = Article::findOrFail($id);
-        $article->update([
-            'title' => $validated['title'],
-            'category_id' => $validated['category'],
-            'content' => $validated['content'],
+        $plan = PlanAnnuel::findOrFail($id);
+        $plan->update([
+            'module_id' => $validated['module'],
+            'brief_id' => $validated['brief'],
+            'competence_id' => $validated['competence'],
         ]);
 
-        $article->tags()->sync($validated['tags'] ?? []);
+        $plan->briefs()->sync($validated['briefs'] ?? []);
 
-        return $article;
+        return $plan;
     }
 
     public function destroy($id)
     {
-        $article = Article::where('id', $id);
-        $article->delete();
+        $plan = PlanAnnuel::where('id', $id);
+        $plan->delete();
     }
 }

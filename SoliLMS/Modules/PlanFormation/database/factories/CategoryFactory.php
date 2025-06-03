@@ -1,9 +1,9 @@
 <?php
 
-namespace Modules\Blog\Database\Factories;
+namespace Modules\PlanFormation\Database\Factories;
 
 
-use Modules\Blog\Models\Category;
+use Modules\PlanFormation\Models\Category;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 

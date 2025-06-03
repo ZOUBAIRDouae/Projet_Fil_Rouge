@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Modules\Blog\Models\User;
-use Modules\Blog\database\seeders\DatabaseSeederBlog;
+use Modules\PlanFormation\Models\User;
+use Modules\PlanFormation\Models\Formateur;
+use Modules\PlanFormation\database\seeders\DatabaseSeederPlanFormation;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -20,7 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             RolePermissionSeeder::class,
-            DatabaseSeederBlog::class
+            DatabaseSeederPlanFormation::class
 
         ]);
     }
