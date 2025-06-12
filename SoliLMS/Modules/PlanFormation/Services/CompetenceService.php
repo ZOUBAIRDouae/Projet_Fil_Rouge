@@ -6,6 +6,12 @@ use Modules\PlanFormation\Models\Competence;
 
 class CompetenceService
 {
+    
+    public function getAllCompetences()
+    {
+        return Competence::paginate(10);
+    }
+
     public function createCompetence(array $data)
     {
         return Competence::create($data);

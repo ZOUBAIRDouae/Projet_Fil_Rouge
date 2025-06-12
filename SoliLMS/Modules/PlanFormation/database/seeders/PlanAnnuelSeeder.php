@@ -34,7 +34,15 @@ class PlanAnnuelSeeder extends Seeder
         //             'motDePasse' => bcrypt('password'),
         // ]);
 
-        DB::table('plan_annuels')->insert([
+        $formateur = User::whereHas('roles', function($query) {
+            $query->where('name', 'formateur');
+        })->first();
+    
+        if (!$formateur) {
+            throw new \Exception('Aucun formateur trouvé dans la base de données.');
+        }
+
+        \Modules\PlanFormation\Entities\PlanAnnuel::insert([
             [
                 'date_debut' => '2025-01-01',
                 'date_fin' => '2025-12-31',

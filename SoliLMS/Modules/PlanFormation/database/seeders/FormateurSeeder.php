@@ -16,36 +16,31 @@ class FormateurSeeder extends Seeder
         $formateurs = [
             [
                 'nom' => 'BOUZIANE',
-                'prenom' => 'imane',
-                'email' => 'imane@gmail.com',
+                'prenom' => 'Imane',
                 'telephone' => '0612345678',
                 'password' => bcrypt('formateur'),
             ],
             [
                 'nom' => 'ESSARRAJ',
                 'prenom' => 'Fouad',
-                'email' => 'fouad@gmail.com',
                 'telephone' => '0698765432',
                 'password' => bcrypt('formateur'),
             ],
             [
                 'nom' => 'CHEBAB',
                 'prenom' => 'Fatin',
-                'email' => 'fatin@gmail.com',
                 'telephone' => '0698765432',
                 'password' => bcrypt('formateur'),
             ],
             [
                 'nom' => 'SOKLABI',
                 'prenom' => 'Abdellatif',
-                'email' => 'soklabi@gmail.com',
                 'telephone' => '0698765432',
                 'password' => bcrypt('formateur'),
             ],
             [
                 'nom' => 'EL MASOUDI',
                 'prenom' => 'Masoudi',
-                'email' => 'masoudi@gmail.com',
                 'telephone' => '0698765432',
                 'password' => bcrypt('formateur'),
             ],
@@ -55,7 +50,6 @@ class FormateurSeeder extends Seeder
             //Crée l'utilisateur lié au formateur
             $user = User::create([
                 'name' => $data['prenom'] . ' ' . $data['nom'],
-                'email' => $data['email'],
                 'password' => $data['password'],
             ]);
 
@@ -67,7 +61,6 @@ class FormateurSeeder extends Seeder
                 'user_id' => $user->id,
                 'nom' => $data['nom'],
                 'prenom' => $data['prenom'],
-                'email' => $data['email'],
                 'telephone' => $data['telephone'],
                 // Ne mets pas le mot de passe ici, il est dans users
             ]);

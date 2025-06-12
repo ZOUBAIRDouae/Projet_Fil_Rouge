@@ -10,6 +10,6 @@ use Spatie\Permission\Traits\HasRole;
 
 class UserController extends Controller {
 
-    use HasRole;
+    use HasRoles;
 } 
 

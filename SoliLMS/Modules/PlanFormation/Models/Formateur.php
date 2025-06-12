@@ -10,7 +10,7 @@ class Formateur extends Model
 {
     use HasRoles;
     
-    protected $fillable = ['user_id','nom', 'prenom', 'email', 'telephone', 'motDePasse'];
+    protected $fillable = ['user_id','nom', 'prenom', 'telephone', 'motDePasse'];
 
     protected $hidden = ['motDePasse'];
 

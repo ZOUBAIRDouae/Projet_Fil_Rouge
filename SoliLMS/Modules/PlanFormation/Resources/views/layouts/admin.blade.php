@@ -63,14 +63,14 @@
         </nav>
 
         <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
-            <div class="sidebar-brand"> <a href="{{ route('plans.index') }}" class="brand-link"><i class="fa-solid fa-blog"></i> <span class="brand-text fw-light">Plan</span> </a> </div>
+            <div class="sidebar-brand"> <a href="{{ route('admin.dashboard') }}" class="brand-link"> <span class="brand-text fw-light">Dashboard</span> </a> </div>class="fa-solid fa-blog"></i> <span class="brand-text fw-light">Plan</span> </a> </div>
             <div class="sidebar-wrapper">
                 <nav class="mt-2">
                     <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
                         <li class="nav-item"> 
-                            <a href="{{ route('plans.index') }}" class="nav-link"> 
+                            <a href="{{ route('plans.create') }}" class="nav-link"> 
                             <i class="fa-solid fa-newspaper"></i>
-                                <p>Dashboard</p>
+                                <p>Plan</p>
                             </a> 
                         </li>
                         <li class="nav-item"> 
@@ -89,6 +89,12 @@
                             <a href="{{ route('competences.index') }}" class="nav-link"> 
                             <i class="fa-solid fa-tags"></i>
                                 <p>Competences</p>
+                            </a> 
+                        </li>
+                        <li class="nav-item"> 
+                            <a href="{{ route('formateurs.index') }}" class="nav-link"> 
+                                <i class="fa-solid fa-user-tie"></i>
+                                <p>Formateurs</p>
                             </a> 
                         </li>
                     </ul>

@@ -4,76 +4,91 @@
 <div class="container my-5">
     <!-- Header -->
     <div class="text-center mb-5">
-        <h1 class="display-4 font-weight-bold text-dark">Détails de l'article</h1>
-        <p class="lead text-muted">Explorez les détails de l’article sélectionné.</p>
+        <h1 class="display-4 font-weight-bold text-dark">Détails du plan Annuel</h1>
+        <p class="lead text-muted">Explorez les détails du plan.</p>
     </div>
     @if(session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
-    <!-- Article Card -->
+    <!-- Plan Card -->
     <div class="card shadow-lg border-0 mb-5">
         <div class="card-body">
-            <!-- Article Title -->
-            <h2 class="h3 font-weight-semibold text-dark">{{ $article->title }}</h2>
+            <!-- Plan Filiere -->
+            <h2 class="h3 font-weight-semibold text-dark">{{ $plan->filiere }}</h2>
 
-            <!-- Author and Date -->
+            {{-- <!-- Author and Date -->
             <div class="mt-4 text-muted">
                 <p>
                     Publié le <span class="font-weight-medium">{{ $article->created_at->format('F j, Y') }}</span>
                 </p>
-            </div>
+            </div> --}}
 
-            <!-- Categories -->
+            <!-- Modules -->
             <div class="mt-4 text-sm text-muted">
-                <p>Catégorie:
-                    @if($article->category)
+                <p>Module:
+                    @if($plan->module)
                     <span class="font-weight-semibold text-dark">
-                        {{$article->category->name }}
+                        {{$plan->module->nom }}
                     </span>
                     @else
-                    <span class="font-weight-semibold text-muted">No categories available</span>
+                    <span class="font-weight-semibold text-muted">No module available</span>
                     @endif
                 </p>
             </div>
 
-            <!-- Tags -->
+            <!-- Briefs -->
             <div class="mt-4 text-sm text-muted">
-                <p>Tags:
-                    @if($article->tags)
+                <p>Briefs:
+                    @if($plan->briefs)
                     <span class="font-weight-semibold text-dark">
-                        @foreach($article->tags as $tag)
-                        {{ $tag->name }}@if(!$loop->last), @endif
+                        @foreach($plan->briefs as $brief)
+                        {{ $brief->titre }}@if(!$loop->last), @endif
                         @endforeach
                     </span>
                     @else
-                    <span class="font-weight-semibold text-muted">No tags available</span>
+                    <span class="font-weight-semibold text-muted">No briefs available</span>
                     @endif
                 </p>
             </div>
 
-            <!-- Article Content -->
+            <!-- Competences -->
+            <div class="mt-4 text-sm text-muted">
+                <p>Competences:
+                    @if($plan->competences)
+                        <span class="font-weight-semibold text-dark">
+                            @foreach($plan->competences as $competence)
+                                {{ $competence->nom }}@if(!$loop->last), @endif
+                            @endforeach
+                        </span>
+                    @else
+                        <span class="font-weight-semibold text-muted">No briefs available</span>
+                    @endif
+                </p>
+            </div>
+
+            {{-- <!-- Article Content -->
             <div class="mt-4 text-dark">
                 {{ $article->content }}
-            </div>
+            </div> --}}
 
             <!-- Action Buttons -->
             <div class="mt-5 d-flex justify-content-between">
-                <!-- Back to Articles Button -->
-                <form action="/articles" method="GET">
-                    <button type="submit" class="btn btn-secondary">Retour aux articles</button>
+                <!-- Back to plan Button -->
+                <form action="/plans" method="GET">
+                    <button type="submit" class="btn btn-secondary">Retour au plan</button>
                 </form>
 
                 <div>
-                    <!-- Edit Article Button -->
-                    @can('update', $article)
-                    <form action="/articles/{{ $article->id }}/edit" method="GET" class="d-inline">
+                    <!-- Edit Plan Button -->
+                    @can('update', $plan)
+                    <form action="/plans/{{ $plan->id }}/edit" method="GET" class="d-inline">
                         <button type="submit" class="btn btn-primary">Modifier</button>
                     </form>
                     @endcan
 
-                    <!-- Delete Article Button -->
-                    @can('delete', $article)
-                    <form action="/articles/{{ $article->id }}" method="POST" class="d-inline">
+                    <!-- Delete Plan Button -->
+                    @can('delete', $plan)
+                    <form action="/plans/{{ $plan->id }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Supprimer</button>
@@ -85,7 +100,7 @@
     </div>
 
     <!-- Comments Section -->
-    <div class="row justify-content-center">
+    {{-- <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
             <div class="card shadow-0 border" style="background-color: #f0f2f5;">
                 <div class="card-body p-4">
@@ -123,6 +138,6 @@
                     @endforeach
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
     @endsection

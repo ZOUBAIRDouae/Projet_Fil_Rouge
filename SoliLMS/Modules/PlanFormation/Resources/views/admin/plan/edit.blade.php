@@ -10,59 +10,77 @@
         </div>
 
         <div class="card-body">
-          <form method="POST" action="{{ route('articles.update', $article->id) }}">
+          <form method="POST" action="{{ route('plans.update', $plan->id) }}">
             @method('PUT')
             @csrf
 
-            {{-- Titre --}}
+            {{-- Filiere --}}
             <div class="mb-3">
-              <label for="title" class="form-label">Titre</label>
+              <label for="filiere" class="form-label">Filiere</label>
               <input
                 type="text"
-                name="title"
+                name="filiere"
                 class="form-control"
-                id="title"
-                placeholder="Titre de l'article"
-                value="{{ old('title', $article->title) }}"
+                id="filiere"
+                placeholder="plan de filiere"
+                value="{{ old('filiere', $plan->filiere) }}"
                 required>
             </div>
 
-            {{-- Catégorie --}}
+            {{-- Module --}}
             <div class="mb-3">
-              <label for="category" class="form-label">Catégorie</label>
+              <label for="category" class="form-label">Module</label>
               <select
-                name="category"
+                name="module"
                 class="form-select"
-                id="category"
+                id="module"
                 required>
-                @foreach($categories as $category)
-                  <option value="{{ $category->id }}"
-                    {{ $article->category_id == $category->id ? 'selected' : '' }}>
-                    {{ $category->name }}
+                @foreach($modules as $module)
+                  <option value="{{ $module->id }}"
+                    {{ $plan->module_id == $module->id ? 'selected' : '' }}>
+                    {{ $module->nom }}
                   </option>
                 @endforeach
               </select>
             </div>
 
-            {{-- Tags (Multi-Select Dropdown) --}}
+            {{-- Briefs (Multi-Select Dropdown) --}}
             <div class="mb-3">
-              <label for="tags" class="form-label">Tags</label>
+              <label for="briefs" class="form-label">Brief projet</label>
               <select
-                name="tags[]"
-                id="tags"
+                name="briefs[]"
+                id="briefs"
                 class="form-select"
                 multiple>
-                @foreach($allTags as $tag)
-                  <option value="{{ $tag->id }}"
-                    {{ in_array($tag->id, $selectedTags) ? 'selected' : '' }}>
-                    {{ $tag->name }}
+                @foreach($allBriefs as $brief)
+                  <option value="{{ $brief->id }}"
+                    {{ in_array($brief->id, $selectedBriefs) ? 'selected' : '' }}>
+                    {{ $brief->titre }}
+                  </option>
+                @endforeach
+              </select>
+            </div>
+
+            
+            {{-- Competence (Multi-Select Dropdown) --}}
+            <div class="mb-3">
+              <label for="competences" class="form-label">Competences</label>
+              <select
+                name="competences[]"
+                id="competences"
+                class="form-select"
+                multiple>
+                @foreach($allCompetences as $competence)
+                  <option value="{{ $competence->id }}"
+                    {{ in_array($competence->id, $selectedCompetences) ? 'selected' : '' }}>
+                    {{ $competence->nom }}
                   </option>
                 @endforeach
               </select>
             </div>
 
             {{-- Contenu --}}
-            <div class="mb-3">
+            {{-- <div class="mb-3">
               <label for="content" class="form-label">Contenu</label>
               <textarea
                 name="content"
@@ -71,11 +89,11 @@
                 rows="5"
                 placeholder="Contenu de l'article"
                 required>{{ old('content', $article->content) }}</textarea>
-            </div>
+            </div> --}}
 
             {{-- Boutons d'action --}}
             <div class="mt-5 d-flex justify-content-between">
-              <a href="{{ route('articles.index') }}" class="btn btn-secondary">Retour aux articles</a>
+              <a href="{{ route('plans.index') }}" class="btn btn-secondary">Retour au plan</a>
               <button type="submit" class="btn btn-primary px-4">Modifier</button>
             </div>
 
@@ -92,7 +110,7 @@
 <script>
   $(document).ready(function() {
     $('#summernote').summernote({
-      placeholder: 'Rédigé votre article ici...',
+      placeholder: 'Rédigé votre plan ici...',
       tabsize: 2,
       height: 200
     });

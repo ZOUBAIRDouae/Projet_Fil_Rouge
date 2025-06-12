@@ -1,59 +1,78 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="container ">
-  <h1>Gestion des Catégories</h1>
-  <div class="card">
-      <div class="card-header d-flex pb-0 pt-3">
-      <!-- input search --> 
-      <form method="GET" action="{{ route('categories.index') }}" class="d-flex mb-3 ">
-                    <div class="form-group  ">
-                        <input type="text" name="search" id="search" class="form-control " value="{{ request('search') }}" placeholder="Rechercher un article">
-                    </div>
-                    <div class="form-group  ">
-                    <button type="submit" class="btn btn-primary mx-3">Rechercher</button>
-                    </div>
-                </form>
-      </div>
-    <div class="d-flex justify-content-between mx-3 mt-3">
-     <h3 class="card-title my-0">Liste des Catégories</h3>
-     <a href="{{route('categories.create')}}" class="btn btn-success">Ajouter une catégorie</a>  
-    </div>
+<div class="container py-4">
+  <h1 class="mb-4 fw-bold text-primary">Gestion des Compétences</h1>
+
+  <div class="card shadow-sm">
     <div class="card-body">
-        @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}
-    </div>
-        
-        @endif
-   
-          <table class="table table-bordered">
-            <thead>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="card-title mb-0">Liste des Compétences</h3>
+        <a href="{{ route('competences.create') }}" class="btn btn-success">
+          <i class="fas fa-plus me-1"></i> Ajouter une compétence
+        </a>
+      </div>
+
+      <!-- Formulaire de recherche (revu) -->
+<form method="GET" action="{{ route('competences.index') }}" class="row g-2 mb-4 align-items-center">
+  <div class="col-md-10">
+    <input type="text" name="search" id="search" class="form-control" value="{{ request('search') }}" placeholder="Rechercher une compétence...">
+  </div>
+  <div class="col-md-2">
+    <button type="submit" class="btn btn-outline-primary w-100 d-flex align-items-center justify-content-center" title="Rechercher">
+      <i class="fas fa-search"></i>
+    </button>
+  </div>
+</form>
+
+
+      <!-- Message de succès -->
+      @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          {{ session('success') }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      @endif
+
+      <!-- Tableau des compétences -->
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Nom</th>
+              <th scope="col">Description</th>
+              <th scope="col" class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @forelse($competences as $competence)
               <tr>
-                <th>ID</th>
-                <th>Nom</th>
-                <th>Actions</th>
+                <td>{{ $competence->id }}</td>
+                <td>{{ $competence->nom }}</td>
+                <td>{{ $competence->description }}</td>
+                <td class="text-center">
+                  <form action="{{ route('competences.destroy', $competence->id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette compétence ?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                      <i class="fas fa-trash-alt"></i> Supprimer
+                    </button>
+                  </form>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              @foreach($categories as $category)
-                <tr>
-                  <td>{{ $category->id }}</td>
-                  <td>{{ $category->name }}</td>
-                  <td>
-                    <form action="{{ route('categories.destroy', $category->id) }}" method="POST" style="display:inline;">
-                      @csrf
-                      @method('DELETE')
-                      <button type="submit" class="btn btn-danger">Supprimer</button>
-                    </form>
-                  </td>
-                </tr>
-              @endforeach
-            </tbody>
-          </table>
-        </div>
-        <div class="d-flex justify-content-center mt-3">
-          {{ $categories->links() }}
-        </div>
+            @empty
+              <tr>
+                <td colspan="4" class="text-center text-muted">Aucune compétence trouvée.</td>
+              </tr>
+            @endforelse
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="d-flex justify-content-center mt-4">
+        {{ $competences->links() }}
       </div>
     </div>
   </div>

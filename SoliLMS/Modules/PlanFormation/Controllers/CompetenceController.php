@@ -15,22 +15,32 @@ class CompetenceController extends Controller
         $this->competenceService = $competenceService;
     }
 
+    public function index(Request $request)
+    {
+        $competences = $this->competenceService->getAllCompetences();
+        return view('PlanFormation::admin.competence.index', compact('competences'));
+    }
+
+    public function create(){
+        return view('PlanFormation::admin.competence.create');
+    }
+
+
     public function store(Request $request)
     {
         $validated = $request->validate([
             'nom' => 'required',
             'description' => 'required',
-            // 'commentable_id' => 'required|integer',
-            // 'commentable_type' => 'required|string',
         ]);
 
+      
         $this->competenceService->createCompetence($validated);
-        return redirect()->back()->with('success', 'Competence créé avec succès');
+        return redirect()->route('competences.index')->with('success', 'Competence créé avec succès');
     }
 
     public function destroy(string $id)
     {
         $this->competenceService->deleteCompetence($id);
-        return redirect()->back()->with('success', 'Competence supprimé avec succès');
+        return redirect()->route('competences.index')->with('success', 'Competence supprimé avec succès');
     }
 }

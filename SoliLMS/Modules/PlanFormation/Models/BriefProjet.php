@@ -3,6 +3,7 @@
 namespace Modules\PlanFormation\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\PlanFormation\Models\Module;
 
 class BriefProjet extends Model
 {

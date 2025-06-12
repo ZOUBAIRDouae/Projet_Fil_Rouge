@@ -36,12 +36,12 @@ class ModuleController extends Controller
         ]);
 
         $this->moduleService->createModule($request->all());
-        return redirect()->route('PlanFormation::modules.index')->with('success', 'Module créée avec succès');
+        return redirect()->route('modules.index')->with('success', 'Module créée avec succès');
     }
 
     public function destroy(string $id)
     {
         $this->moduleService->deleteModule($id);
-        return redirect()->route('PlanFormation::modules.index')->with('success', 'Module supprimée avec succès');
+        return redirect()->route('modules.index')->with('success', 'Module supprimée avec succès');
     }
 }

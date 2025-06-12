@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Modules\PlanFormation\Models\Evaluation;
 
-class SeanceSeeder extends Seeder
+class EvaluationSeeder extends Seeder
 {
     /**
      * Run the database seeds.

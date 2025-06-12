@@ -9,6 +9,7 @@ use Modules\PlanFormation\Controllers\PlanController;
 use Modules\PlanFormation\Controllers\BriefProjetController;
 use Modules\PlanFormation\Controllers\ModuleController;
 use Modules\PlanFormation\Controllers\CompetenceController;
+use Modules\PlanFormation\Controllers\FormateurController;
 
 
 
@@ -26,7 +27,7 @@ Route::prefix('plans')->group(function () {
 });
 
 
-Route::middleware('auth' , 'role:admin')->group(function () { 
+Route::middleware('auth' , 'role:admin|formateur')->group(function () { 
   Route::prefix('briefs')->group(function () {
     Route::get('/', [BriefProjetController::class, 'index'])->name('briefs.index');
     Route::get('/create', [BriefProjetController::class, 'create'])->name('briefs.create');
@@ -39,6 +40,16 @@ Route::middleware('auth' , 'role:admin')->group(function () {
     Route::get('/create', [ModuleController::class, 'create'])->name('modules.create');
     Route::post('/store', [ModuleController::class, 'store'])->name('modules.store');
     Route::delete('/{module}', [ModuleController::class, 'destroy'])->name('modules.destroy');
+});
+Route::prefix('competences')->group(function () {
+  Route::get('/', [CompetenceController::class, 'index'])->name('competences.index');
+  Route::get('/create', [CompetenceController::class, 'create'])->name('competences.create');
+});
+Route::prefix('formateurs')->group(function () {
+  Route::get('/', [FormateurController::class, 'index'])->name('formateurs.index');
+  Route::get('formateurs/create', [FormateurController::class, 'create'])->name('formateurs.create');
+  Route::post('/', [FormateurController::class, 'store'])->name('formateurs.store');
+  Route::get('formateurs/{id}', [FormateurController::class, 'show'])->name('formateurs.show');
 });
 });
 
@@ -62,6 +73,16 @@ Route::middleware('auth')->group(function () {
 
 Route::get('plan/export/{format?}', [PlanController::class, 'export'])->name('plan.export');
 Route::post('/plans/import', [PlanController::class, 'import'])->name('plans.import');
+
+
+
+
+use Modules\PlanFormation\Controllers\DashboardController;
+
+Route::middleware(['web' , 'auth'])->group(function () {
+    Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+});
+
 
 
 

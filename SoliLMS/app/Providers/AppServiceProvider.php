@@ -6,8 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Modules\PlanFormation\App\Providers\PlanServiceProvider;
 
-use App\Models\PlanAnnuel;
-use App\Policies\PlanPolicy;
+use Modules\PlanFormation\Models\PlanAnnuel;
+use Modules\PlanFormation\App\Policies\PlanPolicy;
 
 class AppServiceProvider extends ServiceProvider
 {

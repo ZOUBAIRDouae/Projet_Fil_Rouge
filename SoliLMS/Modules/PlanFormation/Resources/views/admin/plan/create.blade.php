@@ -10,70 +10,86 @@
         </div>
 
         <div class="card-body">
-          <form method="POST" action="{{ route('articles.store') }}">
+          <form method="POST" action="{{ route('plan_annuels.store') }}">
             @csrf
 
-            {{-- Titre --}}
+            {{-- Filiere --}}
             <div class="mb-3">
-              <label for="title" class="form-label">Titre</label>
+              <label for="title" class="form-label">Filière</label>
               <input
                 type="text"
-                name="title"
+                name="filiere"
                 class="form-control"
-                id="title"
-                placeholder="Titre de l'article"
-                value="{{ old('title') }}"
+                id="filiere"
+                placeholder="filiere du plan"
+                value="{{ old('filiere') }}"
                 required>
             </div>
 
-            {{-- Catégorie --}}
+            {{-- Module --}}
             <div class="mb-3">
-              <label for="category" class="form-label">Catégorie</label>
+              <label for="module" class="form-label">Module</label>
               <select
-                name="category"
+                name="module"
                 class="form-select"
-                id="category"
+                id="module"
                 required>
-                <option value="" hidden>-- Choisir une catégorie --</option>
-                @foreach($categories as $category)
-                  <option value="{{ $category->id }}">
-                    {{ $category->name }}
+                <option value="" hidden>-- Choisir un module --</option>
+                @foreach($modules as $module)
+                  <option value="{{ $module->id }}">
+                    {{ $module->nom }}
                   </option>
                 @endforeach
               </select>
             </div>
 
-            {{-- Tags (Multi-Select Dropdown) --}}
+            {{-- Briefs (Multi-Select Dropdown) --}}
             <div class="mb-3">
-              <label for="tags" class="form-label">Tags</label>
+              <label for="briefs" class="form-label">Briefs Projets</label>
               <select
-                name="tags[]"
-                id="tags"
+                name="briefs[]"
+                id="briefs"
                 class="form-select"
                 multiple>
-                @foreach($allTags as $tag)
-                  <option value="{{ $tag->id }}">
-                    {{ $tag->name }}
+                @foreach($allBriefs as $brief)
+                  <option value="{{ $brief->id }}">
+                    {{ $brief->titre }}
+                  </option>
+                @endforeach
+              </select>
+            </div>
+
+            {{-- Competences (Multi-Select Dropdown) --}}
+            <div class="mb-3">
+              <label for="competences" class="form-label">Compétences</label>
+              <select
+                name="competences[]"
+                id="competences"
+                class="form-select"
+                multiple>
+                @foreach($allCompetences as $competence)
+                  <option value="{{ $competence->id }}">
+                    {{ $competence->nom }}
                   </option>
                 @endforeach
               </select>
             </div>
 
             {{-- Contenu --}}
-            <div class="mb-3">
+            {{-- <div class="mb-3">
               <label for="content" class="form-label">Contenu</label>
               <textarea
                 name="content"
                 class="form-control summernote"
                 id="summernote"
                 rows="5"
-                placeholder="Contenu de l'article"
+                placeholder="Contenu de plan de formation"
                 required>{{ old('content') }}</textarea>
-            </div>
+            </div> --}}
 
             {{-- Boutons d'action --}}
             <div class="text-center">
-              <a href="{{ route('articles.index') }}" class="btn btn-secondary">Retour</a>
+              <a href="{{ route('plans.index') }}" class="btn btn-secondary">Retour</a>
               <button type="submit" class="btn btn-success px-4">Ajouter</button>
             </div>
 
@@ -90,7 +106,7 @@
 <script>
   $(document).ready(function() {
     $('#summernote').summernote({
-      placeholder: 'Rédigé votre article ici...',
+      placeholder: 'Rédigé votre plan ici...',
       tabsize: 2,
       height: 200
     });

@@ -74,7 +74,7 @@ class PlanService
 
     public function show($id)
     {
-        return Article::with(['module', 'briefs', 'competences'])->findOrFail($id);
+        return PlanAnnuel::with(['module', 'briefs', 'competences'])->findOrFail($id);
     }
 
     public function update($request, $id)

@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Modules\PlanFormation\Models\User;
 
-class SeanceSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -26,6 +26,14 @@ class SeanceSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
         $apprenant->assignRole('apprenant');
+
+        $formateur = User::create([
+            'name' => 'Formateur 1',
+            'email' => 'formateur1@gmail.com',
+            'password' => bcrypt('password'),
+        ]);
+        $formateur->assignRole('formateur');
     }
+
     
 }

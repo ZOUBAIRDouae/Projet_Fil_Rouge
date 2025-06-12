@@ -3,6 +3,7 @@
 namespace Modules\PlanFormation\Services;
 
 use Modules\PlanFormation\Models\PlanAnnuel;
+use Modules\PlanFormation\Models\BriefProjet;
 
 class BriefProjetService
 {
@@ -17,7 +18,10 @@ class BriefProjetService
 
     public function createBrief(array $data)
     {
+        $data['module_id'] = $data['module'];
+        unset($data['module']);
         return BriefProjet::create($data);
+        
     }
 
     public function deleteBrief(string $id)
