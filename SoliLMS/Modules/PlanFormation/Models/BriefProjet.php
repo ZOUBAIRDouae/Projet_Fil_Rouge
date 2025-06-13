@@ -7,7 +7,8 @@ use Modules\PlanFormation\Models\Module;
 
 class BriefProjet extends Model
 {
-    protected $fillable = ['titre', 'description', 'statut', 'module_id'];
+    protected $table = 'brief_projets';
+    protected $fillable = ['titre', 'description', 'statut', 'module_id' , 'plan_annuel_id'];
 
     public function module()
     {
@@ -17,5 +18,9 @@ class BriefProjet extends Model
     public function evaluations()
     {
         return $this->hasMany(Evaluation::class);
+    }
+
+    public function plans(){
+        return $this->belongsTo(PlanAnnuel::class);
     }
 }

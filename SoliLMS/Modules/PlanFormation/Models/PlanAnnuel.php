@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PlanAnnuel extends Model
 {
-    protected $fillable = ['date_debut', 'date_fin', 'filiere'];
+    protected $fillable = ['date_debut', 'date_fin', 'filiere' , 'formateur_id'];
 
     public function seances()
     {
@@ -15,12 +15,16 @@ class PlanAnnuel extends Model
 
     public function modules()
     {
-        return $this->hasMany(Module::class);
+        return $this->hasMany(Module::class , 'plan_annuel_id');
     }
 
-    public function BriefProjet()
+    public function briefProjets()
     {
-        return $this->hasMany(BriefProjet::class);
+        return $this->hasMany(BriefProjet::class , 'plan_annuel_id');
+    }
+
+    public function competences(){
+        return $this->hasMany(Competence::class , 'plan_annuel_id');
     }
 
     public function formateur()

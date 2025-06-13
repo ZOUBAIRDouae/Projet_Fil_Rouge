@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Module extends Model
 {
-    protected $fillable = ['nom', 'description'];
+    protected $fillable = ['nom', 'description' , 'plan_annuel_id'];
 
     public function seances()
     {
@@ -16,5 +16,13 @@ class Module extends Model
     public function briefProjets()
     {
         return $this->hasMany(BriefProjet::class);
+    }
+
+    public function competences(){
+        return $this->hasMany(Competence::class);
+    }
+
+    public function plans(){
+        return $this->belongsTo(PlanAnnuel::class);
     }
 }

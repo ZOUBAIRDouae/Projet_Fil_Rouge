@@ -2,29 +2,18 @@
 
 @section('content')
 <div class="container-fluid px-4">
-    {{-- <h1 class="my-4 text-primary fw-bold">
-        {{ __('PlanFormation::message.manage plan') }}
-    </h1>
-
-    <x-admin-chart 
-        :ArticleCount="$PlanCount"
-        :UserCount="$ModuleCount"
-        :CommentCount="$CompetenceCount" 
-    /> --}}
-
     <div class="card shadow-sm">
         <div class="card-header bg-light">
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <form method="GET" action="{{ route('plans.index') }}" class="d-flex">
                         <input type="text" name="search" id="search" class="form-control" 
-                            value="{{ request('search') }}" placeholder="{{ __('PlanFormation::message.search') }}">
+                            value="{{ request('search') }}" placeholder="{{ __('PlanFormation::message.Search') }}">
                         <button type="submit" class="btn btn-outline-primary ms-2">
                             <i class="fas fa-search"></i>
                         </button>
                     </form>
                 </div>
-
                 <div class="col-md-6">
                     <form method="GET" action="{{ route('plans.index') }}" class="d-flex justify-content-end">
                         <select name="module" class="form-select me-2" style="max-width: 180px;">
@@ -70,7 +59,7 @@
             @endif
 
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="mb-0">{{ __('PlanFormation::message.list of plan') }}</h5>
+                <h5 class="mb-0">{{ __('PlanFormation::message.Training plan') }}</h5>
                 <div class="d-flex flex-wrap gap-2 justify-content-end align-items-center">
 
                     <!-- Export CSV (Icon Only) -->
@@ -89,7 +78,7 @@
                 
                     <!-- Add Plan (Keep Icon + Text for clarity) -->
                     <a href="{{ route('plans.create') }}" class="btn btn-success d-flex align-items-center">
-                        <i class="fas fa-plus me-2"></i> {{ __('PlanFormation::message.add plan') }}
+                        <i class="fas fa-plus me-2"></i> {{ __('PlanFormation::message.Add plan') }}
                     </a>
                 </div>                
             </div>
@@ -97,27 +86,42 @@
                 <thead class="table-light">
                     <tr>
                         <th>ID</th>
-                        <th>{{ __('PlanFormation::message.Filière') }}</th>
-                        <th>{{ __('PlanFormation::message.module') }}</th>
-                        <th>{{ __('PlanFormation::message.briefprojet') }}</th>
-                        <th>{{ __('PlanFormation::message.competences') }}</th>
-                        <th>{{ __('PlanFormation::message.action') }}</th>
+                        <th>{{ __('PlanFormation::message.Module') }}</th>
+                        <th>{{ __('PlanFormation::message.Project Brief') }}</th>
+                        <th>{{ __('PlanFormation::message.Skills') }}</th>
+                        <th>{{ __('PlanFormation::message.Action') }}</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($plans as $plan)
-                        @if(
-                            (empty(request('module')) || $plan->module->id == request('module')) &&
-                            ($plan->briefs->pluck('id')->contains(request('brief')) || !request('brief')) &&
-                            ($plan->competences->pluck('id')->contains(request('competence')) || !request('competence')) &&
-                            (strpos($article->title, request('search')) !== false || strpos($article->content, request('search')) !== false || !request('search'))
+                    @if(
+                        (empty(request('module')) || ($plan->module && $plan->module->id == request('module'))) &&
+                        ($plan->briefProjets->pluck('id')->contains(request('brief')) || !request('brief')) &&
+                        ($plan->competences->pluck('id')->contains(request('competence')) || !request('competence')) &&
+                        (
+                            ($plan->module && strpos($plan->module->nom, request('search')) !== false) || 
+                            (strpos($plan->filiere ?? '', request('search')) !== false) || 
+                            !request('search')
                         )
+                    )
                         <tr>
                             <td>{{ $plan->id }}</td>
-                            <td class="text-start">{{ $plan->filiere }}</td>
-                            <td>{{ $plan->module->nom }}</td>
-                            <td>{{ $plan->brief->titre }}</td>
-                            <td>{{ $plan->competence->nom }}</td>
+                            {{-- <td class="text-start">{{ $plan->filiere }}</td> --}}
+                            <td>
+                                @foreach($plan->modules as $module)
+                                    {{ $module->nom }}@if(!$loop->last), @endif
+                                @endforeach
+                            </td>
+                            <td>
+                                @foreach($plan->briefProjets as $brief)
+                                    {{ $brief->titre }}@if(!$loop->last), @endif
+                                @endforeach
+                            </td>
+                            <td>
+                                @foreach($plan->competences as $competence)
+                                    {{ $competence->nom }}@if(!$loop->last), @endif
+                                @endforeach
+                            </td>                            
                             {{-- <td>{{ $plan->created_at->format('d/m/Y') }}</td> --}}
                             <td>
                                 <a href="{{ route('plans.show', $plan->id) }}" class="btn btn-outline-secondary btn-sm" title="{{ __('PlanFormation::message.display') }}">

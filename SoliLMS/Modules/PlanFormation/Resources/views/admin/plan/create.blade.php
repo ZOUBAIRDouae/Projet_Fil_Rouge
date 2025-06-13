@@ -10,30 +10,28 @@
         </div>
 
         <div class="card-body">
-          <form method="POST" action="{{ route('plan_annuels.store') }}">
+          <form method="POST" action="{{ route('plans.store') }}">
             @csrf
-
-            {{-- Filiere --}}
-            <div class="mb-3">
-              <label for="title" class="form-label">Filière</label>
-              <input
-                type="text"
-                name="filiere"
-                class="form-control"
-                id="filiere"
-                placeholder="filiere du plan"
-                value="{{ old('filiere') }}"
-                required>
-            </div>
-
+            @if ($errors->any())
+              <div class="alert alert-danger">
+                <ul>
+                  @foreach ($errors->all() as $e)
+                    <li>{{ $e }}</li>
+                  @endforeach
+                </ul>
+              </div>
+            @endif
+            <input name="date_debut" type="date" required>
+            <input name="date_fin" type="date" required>
+            <input name="filiere" type="text" required>
             {{-- Module --}}
             <div class="mb-3">
-              <label for="module" class="form-label">Module</label>
+              <label for="modules" class="form-label">Module</label>
               <select
-                name="module"
+                name="modules[]"
                 class="form-select"
                 id="module"
-                required>
+                multiple required>
                 <option value="" hidden>-- Choisir un module --</option>
                 @foreach($modules as $module)
                   <option value="{{ $module->id }}">
@@ -50,8 +48,8 @@
                 name="briefs[]"
                 id="briefs"
                 class="form-select"
-                multiple>
-                @foreach($allBriefs as $brief)
+                multiple required>
+                @foreach($briefs as $brief)
                   <option value="{{ $brief->id }}">
                     {{ $brief->titre }}
                   </option>
@@ -61,31 +59,19 @@
 
             {{-- Competences (Multi-Select Dropdown) --}}
             <div class="mb-3">
-              <label for="competences" class="form-label">Compétences</label>
+              <label for="competence" class="form-label">Compétences</label>
               <select
                 name="competences[]"
-                id="competences"
+                id="competence"
                 class="form-select"
-                multiple>
-                @foreach($allCompetences as $competence)
+                multiple required>
+                @foreach($competences as $competence)
                   <option value="{{ $competence->id }}">
                     {{ $competence->nom }}
                   </option>
                 @endforeach
               </select>
             </div>
-
-            {{-- Contenu --}}
-            {{-- <div class="mb-3">
-              <label for="content" class="form-label">Contenu</label>
-              <textarea
-                name="content"
-                class="form-control summernote"
-                id="summernote"
-                rows="5"
-                placeholder="Contenu de plan de formation"
-                required>{{ old('content') }}</textarea>
-            </div> --}}
 
             {{-- Boutons d'action --}}
             <div class="text-center">

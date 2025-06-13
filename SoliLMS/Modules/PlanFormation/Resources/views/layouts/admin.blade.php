@@ -68,7 +68,7 @@
                 <nav class="mt-2">
                     <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
                         <li class="nav-item"> 
-                            <a href="{{ route('plans.create') }}" class="nav-link"> 
+                            <a href="{{ route('plans.index') }}" class="nav-link"> 
                             <i class="fa-solid fa-newspaper"></i>
                                 <p>Plan</p>
                             </a> 
@@ -108,7 +108,7 @@
 
         <footer class="app-footer text-center">
             <strong>
-                Copyright &copy; 2024&nbsp;
+                SoliLMS &copy; 2025&nbsp;
             </strong>
             All rights reserved.
         </footer>

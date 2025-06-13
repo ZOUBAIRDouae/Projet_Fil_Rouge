@@ -16,18 +16,19 @@ use Modules\PlanFormation\Controllers\FormateurController;
 
 Auth::routes();
 
-Route::prefix('plans')->group(function () {
-  Route::get('/', [PlanController::class, 'index'])->name('plans.index');
-  Route::get('/create', [PlanController::class, 'create'])->name('plans.create');
-  Route::post('/store', [PlanController::class, 'store'])->name('plans.store');
-  Route::get('/{plan}', [PlanController::class, 'show'])->name('plans.show');
-  Route::get('/{plan}/edit', [PlanController::class, 'edit'])->name('plans.edit');
-  Route::put('/{plan}', [PlanController::class, 'update'])->name('plans.update');
-  Route::delete('/{plan}', [PlanController::class, 'destroy'])->name('plans.destroy');
-});
-
-
 Route::middleware('auth' , 'role:admin|formateur')->group(function () { 
+
+  Route::prefix('plans')->group(function () {
+    Route::get('/', [PlanController::class, 'index'])->name('plans.index');
+    Route::get('/create', [PlanController::class, 'create'])->name('plans.create');
+    Route::post('/store', [PlanController::class, 'store'])->name('plans.store');
+    Route::get('/{plan}', [PlanController::class, 'show'])->name('plans.show');
+    Route::get('/{plan}/edit', [PlanController::class, 'edit'])->name('plans.edit');
+    Route::put('/{plan}', [PlanController::class, 'update'])->name('plans.update');
+    Route::delete('/{plan}', [PlanController::class, 'destroy'])->name('plans.destroy');
+  });
+  
+
   Route::prefix('briefs')->group(function () {
     Route::get('/', [BriefProjetController::class, 'index'])->name('briefs.index');
     Route::get('/create', [BriefProjetController::class, 'create'])->name('briefs.create');
@@ -52,16 +53,6 @@ Route::prefix('formateurs')->group(function () {
   Route::get('formateurs/{id}', [FormateurController::class, 'show'])->name('formateurs.show');
 });
 });
-
-
-Route::get('/',[ PlanController::class , 'index'])->name('public.index');
-Route::get('/{plan}',[ PlanController::class , 'show'])->name('public.show');
-
-
-
-
-
-Auth::routes();
 
 
 Route::middleware('auth')->group(function () {

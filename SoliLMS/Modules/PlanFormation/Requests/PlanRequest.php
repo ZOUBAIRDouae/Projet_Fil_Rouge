@@ -19,7 +19,7 @@ class PlanRequest extends FormRequest
     {
         // Merge the authenticated user's ID into the request data.
         $this->merge([
-            'user_id' => auth()->id(),
+            'formateur_id' => auth()->id(),
         ]);
     }
 
@@ -31,11 +31,16 @@ class PlanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'module' => 'required|exists:modules,id',
-            'brief' => 'required|exists:briefs,id',
-            'competence' => 'required|exists:competences,id',
-            'briefs' => 'array',
-            'briefs.*' => 'exists:briefs,id',
+            'date_debut' => 'required|date',
+            'date_fin' => 'required|date|after_or_equal:date_debut',
+            'filiere' => 'required|string|max:255',
+            'formateur_id' => 'required|exists:users,id',
+            'modules' => 'required|array|min:1',
+            'modules.*' => 'exists:modules,id',
+            'briefs' => 'required|array|min:1',
+            'briefs.*' => 'exists:brief_projets,id',
+            'competences' => 'required|array|min:1',
+            'competences.*' => 'exists:competences,id',
         ];
     }
 }

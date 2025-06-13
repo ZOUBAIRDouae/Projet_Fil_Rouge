@@ -63,19 +63,21 @@
         </nav>
 
         <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
-            <div class="sidebar-brand"> <a href="{{ route('plans.index') }}" class="brand-link"><i class="fa-solid fa-blog"></i> <span class="brand-text fw-light">SoliLMS</span> </a> </div>
+            <div class="sidebar-brand"> 
+                <a href="{{ route('plans.index') }}" class="brand-link"><i class="fa-solid fa-blog"></i> <span class="brand-text fw-light">SoliLMS</span> </a> 
+            </div>
             <div class="sidebar-wrapper">
                 <nav class="mt-2">
                     <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
                         <li class="nav-item"> 
                             <a href="{{ route('admin.dashboard') }}" class="nav-link"> 
-                            <i class="fa-solid fa-newspaper"></i>
+                            <i class="nav-icon fas fa-fas fa-chart-bar"></i>
                                 <p>Dashboard</p>
                             </a> 
                         </li>
                         <li class="nav-item"> 
-                            <a href="{{ route('plans.create') }}" class="nav-link"> 
-                            <i class="fa-solid fa-newspaper"></i>
+                            <a href="{{ route('plans.index') }}" class="nav-link"> 
+                            <i class="nav-icon fas fa-table"></i>
                                 <p>Plan</p>
                             </a> 
                         </li>
@@ -114,7 +116,7 @@
 
         <footer class="app-footer text-center">
             <strong>
-                Copyright &copy; 2024&nbsp;
+                SoliLMS &copy; 2025&nbsp;
             </strong>
             All rights reserved.
         </footer>

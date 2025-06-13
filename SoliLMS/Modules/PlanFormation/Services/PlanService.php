@@ -18,13 +18,8 @@ class PlanService
 {
     public function index($request)
     {
-        $query = PlanAnnuel::query();
+        $plans = PlanAnnuel::with(['modules', 'briefProjets', 'competences'])->paginate(10);
 
-        // // Count for admin dashboard
-        // $ModuleCount = Module::count();
-        // $BriefProjetCount = BriefProjet::count();
-        // $CompetenceCount = Competence::count();
-        // $FormateurCount = Formateur::count();
 
         // Filtering
         if ($request->has('module') && $request->module != '') {
@@ -45,7 +40,6 @@ class PlanService
         }
 
         // Pagination
-        $plans = $query->paginate(10);
         $plans->appends($request->all());
 
         $modules = Module::all();
@@ -53,24 +47,29 @@ class PlanService
         $competences = Competence::all();
 
         return compact('plans', 'modules', 'briefs', 'competences');
-        // return compact('plans', 'modules', 'briefs', 'ArticleCount', 'CommentCount', 'UserCount');
     }
 
     public function create(PlanRequest $request)
     {
         $plan = PlanAnnuel::create([
-            'module_id' => $request['module'],
-            'brief_id' => $request['brief'],
-            'competece_id' => $request['competence'],
-            'user_id' => Auth::user()->id,
+            'date_debut' => $request->date_debut,
+            'date_fin' => $request->date_fin,
+            'filiere' => $request->filiere,
+            'formateur_id' => $request->formateur_id,
         ]);
-
-        // $plan->modules()->attach($request->modules);
-        $plan->briefs()->attach($request->briefs);
-        $plan->competences()->attach($request->competences);
-
+    
+        foreach ($request->modules as $id) {
+            Module::where('id',$id)->update(['plan_annuel_id'=>$plan->id]);
+        }
+        foreach ($request->briefs as $id) {
+            BriefProjet::where('id',$id)->update(['plan_annuel_id'=>$plan->id]);
+        }
+        foreach ($request->competences as $id) {
+            Competence::where('id',$id)->update(['plan_annuel_id'=>$plan->id]);
+        }
+    
         return $plan;
-    }
+    }   
 
     public function show($id)
     {
@@ -81,10 +80,10 @@ class PlanService
     {
         $validated = $request->validate([
             'module' => 'required|exists:modules,id',
-            'brief' => 'required|exists:briefs,id',
+            'brief' => 'required|exists:brief_projets,id',
             'competence' => 'required|exists:competences,id',
             'briefs' => 'array',
-            'briefs.*' => 'exists:briefs,id',
+            'briefs.*' => 'exists:brief_projets,id',
         ]);
 
         $plan = PlanAnnuel::findOrFail($id);
@@ -101,7 +100,7 @@ class PlanService
 
     public function destroy($id)
     {
-        $plan = PlanAnnuel::where('id', $id);
+        $plan = PlanAnnuel::findOrFail($id);
         $plan->delete();
     }
 }

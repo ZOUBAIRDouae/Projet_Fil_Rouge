@@ -6,5 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Competence extends Model
 {
-    protected $fillable = ['nom', 'description'];
+    protected $fillable = ['nom', 'description' , 'plan_annuel_id'];
+
+    public function plans(){
+        return $this->belongsTo(PlanAnnuel::class);
+    }
 }

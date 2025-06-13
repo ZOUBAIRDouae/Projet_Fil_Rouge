@@ -36,16 +36,16 @@ class PlanController extends Controller
     {
         $data = $this->planService->index($request);
         
-        if (Auth::check() && Auth::user()->roles->contains('name', 'admin')) {
+        if (Auth::check() && Auth::user()->roles->contains('name', 'formateur')) {
             return view('PlanFormation::admin.plan.index', $data);
         } else {
             return view('PlanFormation::public.index', $data);
         }
     }
 
-    public function create()
+    public function create()    
     {
-        if (!Auth::check() || !Auth::user()->roles->contains('name', 'admin')) {
+        if (!Auth::check() || !Auth::user()->roles->contains('name', 'formateur')) {
             return redirect()->route('plans.index');
         }
 
@@ -58,7 +58,7 @@ class PlanController extends Controller
 
     public function store(PlanRequest $request)
     {
-        if (!Auth::check() || !Auth::user()->roles->contains('name', 'admin')) {
+        if (!Auth::check() || !Auth::user()->roles->contains('name', 'formateur')) {
             return redirect()->route('plans.index');
         }
 
@@ -70,10 +70,8 @@ class PlanController extends Controller
     public function show(string $id)
     {
         $plan = $this->planService->show($id);
-        // $commentableId = $article->id;
-        // $commentableType = Article::class;
 
-        if (Auth::check() && Auth::user()->roles->contains('name', 'admin')) {
+        if (Auth::check() && Auth::user()->roles->contains('name', 'formateur')) {
             return view('PlanFormation::admin.plan.show', compact('plan'));
         } else {
             return view('PlanFormation::public.show', compact('plan'));
@@ -82,11 +80,11 @@ class PlanController extends Controller
 
     public function edit($id)
     {
-        if (!Auth::check() || !Auth::user()->roles->contains('name', 'admin')) {
-            return redirect()->route('PlanFormation::plans.index');
+        if (!Auth::check() || !Auth::user()->roles->contains('name', 'fomateur')) {
+            return redirect()->route('plans.index');
         }
 
-        $article = PlanAnnuel::findOrFail($id);
+        $plan = PlanAnnuel::findOrFail($id);
         $this->authorize('edit', $plan);
         $modules = Module::all();
         $briefs = BriefProjet::all();
@@ -98,19 +96,19 @@ class PlanController extends Controller
 
     public function update(Request $request, $id)
     {
-        if (!Auth::check() || !Auth::user()->roles->contains('name', 'admin')) {
-            return redirect()->route('PlanFormation::plans.index');
+        if (!Auth::check() || !Auth::user()->roles->contains('name', 'formateur')) {
+            return redirect()->route('plans.index');
         }
 
         $this->planService->update($request, $id);
 
-        return redirect()->route('PlanFormation::plans.index')->with('success', 'Plan a bien été modifié');
+        return redirect()->route('plans.index')->with('success', 'Plan a bien été modifié');
     }
 
     public function destroy(string $id)
     {
-        if (!Auth::check() || !Auth::user()->roles->contains('name', 'admin')) {
-            return redirect()->route('PlanFormation::plans.index');
+        if (!Auth::check() || !Auth::user()->roles->contains('name', 'formateur')) {
+            return redirect()->route('plans.index');
         }
 
         $this->planService->destroy($id);
