@@ -9,7 +9,7 @@ class CompetenceService
     
     public function getAllCompetences()
     {
-        return Competence::paginate(10);
+        return Competence::paginate(5);
     }
 
     public function createCompetence(array $data)

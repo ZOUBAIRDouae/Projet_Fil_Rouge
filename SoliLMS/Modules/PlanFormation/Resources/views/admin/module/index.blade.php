@@ -8,7 +8,7 @@
       <!-- input search --> 
       <form method="GET" action="{{ route('modules.index') }}" class="d-flex mb-3 ">
                     <div class="form-group  ">
-                        <input type="text" name="search" id="search" class="form-control " value="{{ request('search') }}" placeholder="Rechercher un plan">
+                        <input type="text" name="search" id="search" class="form-control " value="{{ request('search') }}" placeholder="Rechercher un module">
                     </div>
                     <div class="form-group  ">
                     <button type="submit" class="btn btn-primary mx-3">Rechercher</button>

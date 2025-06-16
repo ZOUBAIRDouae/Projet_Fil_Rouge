@@ -9,6 +9,9 @@ return [
  'Action' => 'Action' ,
  'Add plan' => 'Ajouter un Plan',
  'Search' => 'Rechercher',
+ 'All modules' => 'Tous les Modules',
+ 'All briefs' => 'Tous les Briefs',
+ 'All competences' => 'Toutes les Competences',
 
 
 ];

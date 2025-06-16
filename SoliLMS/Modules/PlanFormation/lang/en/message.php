@@ -10,5 +10,8 @@ return [
     'Action' => 'Action' ,
     'Add plan' => 'Add plan' ,
     'Search' => 'Search' ,
+    'All modules' => 'All modules',
+    'All briefs' => 'All briefs' ,
+    'All competences' => 'All competences' ,
     
  ];

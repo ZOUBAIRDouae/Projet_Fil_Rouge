@@ -14,7 +14,7 @@
       </div>
 
       <!-- Formulaire de recherche (revu) -->
-<form method="GET" action="{{ route('competences.index') }}" class="row g-2 mb-4 align-items-center">
+{{-- <form method="GET" action="{{ route('competences.index') }}" class="row g-2 mb-4 align-items-center">
   <div class="col-md-10">
     <input type="text" name="search" id="search" class="form-control" value="{{ request('search') }}" placeholder="Rechercher une compétence...">
   </div>
@@ -23,7 +23,7 @@
       <i class="fas fa-search"></i>
     </button>
   </div>
-</form>
+</form> --}}
 
 
       <!-- Message de succès -->

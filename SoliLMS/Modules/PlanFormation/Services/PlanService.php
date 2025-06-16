@@ -18,36 +18,50 @@ class PlanService
 {
     public function index($request)
     {
-        $plans = PlanAnnuel::with(['modules', 'briefProjets', 'competences'])->paginate(10);
-
-
-        // Filtering
+        $query = PlanAnnuel::with(['modules', 'briefProjets', 'competences']);
+    
+        // Filtrer par module sélectionné (id)
         if ($request->has('module') && $request->module != '') {
-            $query->where('module_id', $request->module);
+            $query->whereHas('modules', function ($q) use ($request) {
+                $q->where('id', $request->module);
+            });
         }
-
+    
+        // Filtrer par brief sélectionné (id)
         if ($request->has('brief') && $request->brief != '') {
-            $query->whereHas('briefs', function ($query) use ($request) {
-                $query->where('briefs.id', $request->brief);
+            $query->whereHas('briefProjets', function ($q) use ($request) {
+                $q->where('id', $request->brief);
             });
         }
-
+    
+        // Filtre de recherche globale
         if ($request->has('search') && $request->search != '') {
-            $query->where(function ($query) use ($request) {
-                $query->where('module_id', 'like', '%' . $request->search . '%')
-                      ->orWhere('brief_id', 'like', '%' . $request->search . '%');
+            $search = $request->search;
+    
+            $query->where(function ($q) use ($search) {
+                $q->where('filiere', 'like', "%$search%")
+                  ->orWhereHas('modules', function ($mq) use ($search) {
+                      $mq->where('nom', 'like', "%$search%");
+                  })
+                  ->orWhereHas('briefProjets', function ($bq) use ($search) {
+                      $bq->where('titre', 'like', "%$search%");
+                  })
+                  ->orWhereHas('competences', function ($cq) use ($search) {
+                      $cq->where('nom', 'like', "%$search%");
+                  });
             });
         }
-
+    
         // Pagination
+        $plans = $query->paginate(10);
         $plans->appends($request->all());
-
+    
         $modules = Module::all();
         $briefs = BriefProjet::all();
         $competences = Competence::all();
-
+    
         return compact('plans', 'modules', 'briefs', 'competences');
-    }
+    }    
 
     public function create(PlanRequest $request)
     {
@@ -73,7 +87,7 @@ class PlanService
 
     public function show($id)
     {
-        return PlanAnnuel::with(['module', 'briefs', 'competences'])->findOrFail($id);
+        return PlanAnnuel::with(['modules', 'briefProjets', 'competences'])->findOrFail($id);
     }
 
     public function update($request, $id)

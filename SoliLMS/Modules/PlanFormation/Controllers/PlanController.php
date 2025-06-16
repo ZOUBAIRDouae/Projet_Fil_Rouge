@@ -74,7 +74,7 @@ class PlanController extends Controller
         if (Auth::check() && Auth::user()->roles->contains('name', 'formateur')) {
             return view('PlanFormation::admin.plan.show', compact('plan'));
         } else {
-            return view('PlanFormation::public.show', compact('plan'));
+            return view('PlanFormation::public.index', compact('plan'));
         }
     }
 
@@ -124,7 +124,7 @@ class PlanController extends Controller
             return redirect()->back()->with('error', 'Invalid format.');
         }
 
-        return Excel::download(new PlanExport, "article.$format", $format === 'csv' ? \Maatwebsite\Excel\Excel::CSV : \Maatwebsite\Excel\Excel::XLSX);
+        return Excel::download(new PlanExport, "plan.$format", $format === 'csv' ? \Maatwebsite\Excel\Excel::CSV : \Maatwebsite\Excel\Excel::XLSX);
 
     }
 

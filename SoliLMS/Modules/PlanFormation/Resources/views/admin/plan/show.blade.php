@@ -15,20 +15,12 @@
         <div class="card-body">
             <!-- Plan Filiere -->
             <h2 class="h3 font-weight-semibold text-dark">{{ $plan->filiere }}</h2>
-
-            {{-- <!-- Author and Date -->
-            <div class="mt-4 text-muted">
-                <p>
-                    Publié le <span class="font-weight-medium">{{ $article->created_at->format('F j, Y') }}</span>
-                </p>
-            </div> --}}
-
             <!-- Modules -->
             <div class="mt-4 text-sm text-muted">
                 <p>Module:
                     @if($plan->module)
                     <span class="font-weight-semibold text-dark">
-                        {{$plan->module->nom }}
+                        {{$plan->modules->first()?->nom ?? 'No module'}}
                     </span>
                     @else
                     <span class="font-weight-semibold text-muted">No module available</span>
@@ -65,11 +57,6 @@
                     @endif
                 </p>
             </div>
-
-            {{-- <!-- Article Content -->
-            <div class="mt-4 text-dark">
-                {{ $article->content }}
-            </div> --}}
 
             <!-- Action Buttons -->
             <div class="mt-5 d-flex justify-content-between">

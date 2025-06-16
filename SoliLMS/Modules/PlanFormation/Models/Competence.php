@@ -11,4 +11,9 @@ class Competence extends Model
     public function plans(){
         return $this->belongsTo(PlanAnnuel::class);
     }
+
+    public function modules() {
+        return $this->belongsTo(Module::class);
+    }
+    
 }

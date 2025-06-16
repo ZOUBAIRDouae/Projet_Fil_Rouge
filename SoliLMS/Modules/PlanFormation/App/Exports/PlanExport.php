@@ -5,23 +5,24 @@ namespace Modules\PlanFormation\App\Exports;
 use Modules\PlanFormation\Models\PlanAnnuel;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Modules\PlanFormation\Controllers\PlanController;
+use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
+use Carbon\Carbon;
 
-class PlanExport implements FromCollection, WithHeadings
+class PlanExport implements FromCollection, WithHeadings, WithCustomCsvSettings
 {
     public function collection()
     {
-        return PlanAnnuel::with(['module', 'briefprojets', 'competences'])->get()->map(function ($plan) {
+        return PlanAnnuel::with(['modules', 'briefProjets', 'competences'])->get()->map(function ($plan) {
             return [
-                'id' => $plan->id,
-                'date_debut' => $plan->date_debut->format('Y-m-d'),
-                'date_fin' => $plan->date_fin->format('Y-m-d'),
-                'filiere' => $plan->filiere,
-                'module_nom' => $plan->module->nom,
-                'briefprojets' => $plan->briefprojets->pluck('titre')->join(', '),
-                'competences' => $plan->competences->pluck('titre')->join(', '),
-                'created_at' => $plan->created_at->format('Y-m-d H:i:s'),
-                'updated_at' => $plan->updated_at->format('Y-m-d H:i:s'),
+                'id'           => $plan->id,
+                'date_debut'   => Carbon::parse($plan->date_debut)->format('d/m/Y'),
+                'date_fin'     => Carbon::parse($plan->date_fin)->format('d/m/Y'),
+                'filiere'      => $plan->filiere,
+                'modules'      => $plan->modules->pluck('nom')->join(', '),
+                'briefs'       => $plan->briefProjets->pluck('titre')->join(', '),
+                'competences'  => $plan->competences->pluck('nom')->join(', '),
+                'created_at'   => Carbon::parse($plan->created_at)->format('d/m/Y H:i'),
+                'updated_at'   => Carbon::parse($plan->updated_at)->format('d/m/Y H:i'),
             ];
         });
     }
@@ -29,15 +30,23 @@ class PlanExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            // 'ID',
-            // 'Date de début',
-            // 'Date de fin',
-            //'Filière',
-            'Module',
+            'ID',
+            'Date de début',
+            'Date de fin',
+            'Filière',
+            'Modules',
             'Briefs de projets',
             'Compétences',
-            'Created At',
-            'Updated At'
+            'Créé le',
+            'Mis à jour le'
+        ];
+    }
+
+    public function getCsvSettings(): array
+    {
+        return [
+            'input_encoding' => 'UTF-8',
+            'use_bom' => true, // Important pour Excel (accents corrects)
         ];
     }
 }

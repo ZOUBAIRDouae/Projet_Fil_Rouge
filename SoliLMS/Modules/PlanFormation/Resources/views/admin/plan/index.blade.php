@@ -17,16 +17,15 @@
                 <div class="col-md-6">
                     <form method="GET" action="{{ route('plans.index') }}" class="d-flex justify-content-end">
                         <select name="module" class="form-select me-2" style="max-width: 180px;">
-                            <option value="">{{ __('PlanFormation::message.all modules') }}</option>
+                            <option value="">{{ __('PlanFormation::message.All modules') }}</option>
                             @foreach($modules as $module)
                                 <option value="{{ $module->id }}" {{ request('module') == $module->id ? 'selected' : '' }}>
                                     {{ $module->nom }}
                                 </option>
                             @endforeach
                         </select>
-
                         <select name="brief" class="form-select me-2" style="max-width: 180px;">
-                            <option value="">{{ __('PlanFormation::message.all briefs') }}</option>
+                            <option value="">{{ __('PlanFormation::message.All briefs') }}</option>
                             @foreach($briefs as $brief)
                                 <option value="{{ $brief->id }}" {{ request('brief') == $brief->id ? 'selected' : '' }}>
                                     {{ $brief->titre }}
@@ -35,7 +34,7 @@
                         </select>
 
                         <select name="competence" class="form-select me-2" style="max-width: 180px;">
-                            <option value="">{{ __('PlanFormation::message.all competences') }}</option>
+                            <option value="">{{ __('PlanFormation::message.All competences') }}</option>
                             @foreach($competences as $competence)
                                 <option value="{{ $competence->id }}" {{ request('competence') == $competence->id ? 'selected' : '' }}>
                                     {{ $competence->nom }}
@@ -94,7 +93,7 @@
                 </thead>
                 <tbody>
                     @foreach($plans as $plan)
-                    @if(
+                    {{-- @if(
                         (empty(request('module')) || ($plan->module && $plan->module->id == request('module'))) &&
                         ($plan->briefProjets->pluck('id')->contains(request('brief')) || !request('brief')) &&
                         ($plan->competences->pluck('id')->contains(request('competence')) || !request('competence')) &&
@@ -103,7 +102,7 @@
                             (strpos($plan->filiere ?? '', request('search')) !== false) || 
                             !request('search')
                         )
-                    )
+                    ) --}}
                         <tr>
                             <td>{{ $plan->id }}</td>
                             {{-- <td class="text-start">{{ $plan->filiere }}</td> --}}
@@ -122,17 +121,16 @@
                                     {{ $competence->nom }}@if(!$loop->last), @endif
                                 @endforeach
                             </td>                            
-                            {{-- <td>{{ $plan->created_at->format('d/m/Y') }}</td> --}}
                             <td>
                                 <a href="{{ route('plans.show', $plan->id) }}" class="btn btn-outline-secondary btn-sm" title="{{ __('PlanFormation::message.display') }}">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                @can('update', $plan)
+                                {{-- @can('update', $plan) --}}
                                     <a href="{{ route('plans.edit', $plan->id) }}" class="btn btn-outline-primary btn-sm" title="{{ __('PlanFormation::message.edit') }}">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                @endcan
-                                @can('delete', $plan)
+                                {{-- @endcan --}}
+                                {{-- @can('delete', $plan) --}}
                                     <form action="{{ route('plans.destroy', $plan->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
@@ -140,10 +138,10 @@
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </form>
-                                @endcan
+                                {{-- @endcan --}}
                             </td>
                         </tr>
-                        @endif
+                        {{-- @endif --}}
                     @endforeach
                 </tbody>
             </table>

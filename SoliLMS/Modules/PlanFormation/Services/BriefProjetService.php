@@ -7,11 +7,11 @@ use Modules\PlanFormation\Models\BriefProjet;
 
 class BriefProjetService
 {
-    public function getBriefs(string $search = null, int $perPage = 10)
+    public function getBriefs(string $search = null, int $perPage = 5)
     {
         $query = BriefProjet::query();
         if (!empty($search)) {
-            $query->where('name', 'like', '%' . $search . '%');
+            $query->where('titre', 'like', '%' . $search . '%');
         }
         return $query->paginate($perPage);
     }

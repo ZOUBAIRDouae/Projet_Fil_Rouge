@@ -31,7 +31,7 @@
                 name="modules[]"
                 class="form-select"
                 id="module"
-                multiple required>
+                required>
                 <option value="" hidden>-- Choisir un module --</option>
                 @foreach($modules as $module)
                   <option value="{{ $module->id }}">

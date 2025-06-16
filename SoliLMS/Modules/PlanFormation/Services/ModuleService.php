@@ -12,10 +12,10 @@ class ModuleService
         $query = Module::query();
 
         if ($request->has('search') && $request->search != '') {
-            $query->where('name', 'like', '%' . $request->search . '%');
+            $query->where('nom', 'like', '%' . $request->search . '%');
         }
 
-        return $query->paginate(10);
+        return $query->paginate(5);
     }
 
     public function createModule(array $data)

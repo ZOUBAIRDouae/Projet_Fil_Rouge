@@ -16,6 +16,8 @@
 
     <!-- Styles and Scripts -->
     @vite(['resources/sass/public.scss'])
+    <script type="module" src="http://localhost:5173/resources/js/admin.js"></script>
+    <link rel="stylesheet" href="http://localhost:5173/resources/sass/admin.scss">
 </head>
 
 <body class="bg-gray-100 text-gray-800">

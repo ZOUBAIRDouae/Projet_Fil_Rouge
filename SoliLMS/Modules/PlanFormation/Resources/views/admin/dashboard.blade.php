@@ -28,6 +28,7 @@
                     <i class="fas fa-user fa-2x text-primary mb-2"></i>
                     <h5>Formateurs</h5>
                     <p class="display-4">{{ $nbFormateurs }}</p>
+                    <a href="{{ route('formateurs.index') }}" class="btn btn-secondary btn-sm">View</a>
                 </div>
             </div>
         </div>
@@ -39,6 +40,7 @@
                     <i class="fas fa-check fa-2x text-primary mb-2"></i>
                     <h5>Compétences</h5>
                     <p class="display-4">{{ $nbCompetences }}</p>
+                    <a href="{{ route('competences.index') }}" class="btn btn-secondary btn-sm">View</a>
                 </div>
             </div>
         </div>
@@ -93,3 +95,4 @@
 
 </div>
 @stop
+
