@@ -4,7 +4,6 @@ namespace Modules\PlanFormation\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Modules\PlanFormation\Models\Seance;
 use Modules\PlanFormation\Models\BriefProjet;
 use Modules\PlanFormation\Models\Module;
 use Modules\PlanFormation\Models\Formateur;
@@ -12,75 +11,46 @@ use Modules\PlanFormation\Models\Competence;
 
 class DashboardController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
-    {
-        
-        $nbModules = Module::count();
-        $nbFormateurs = Formateur::count();
-        $nbCompetences = Competence::count();
+{
+    $nbModules = Module::count();
+    $nbFormateurs = Formateur::count();
+    $nbCompetences = Competence::count();
+    $nbBriefs = BriefProjet::count();
 
-        // Récupérer les 3 prochaines séances (par date)
-        $prochainesSeances = Seance::where('heure_debut', '>=', now())
-            ->orderBy('heure_debut')
-            ->limit(3)
-            ->get();
+    $modulesAvecBriefCount = Module::withCount('briefProjets')->orderBy('brief_projets_count', 'desc')->limit(10)->get();
+    $competencesParModule = Module::withCount('competences')->orderBy('competences_count', 'desc')->limit(8)->get();
 
-        return view('PlanFormation::admin.dashboard', compact(
-            'nbModules',
-            'nbFormateurs',
-            'nbCompetences',
-            'prochainesSeances'
-        ));
-    }
+    // En développement tu peux décommenter pour debuguer
+    // dd($modulesAvecBriefCount, $competencesParModule);
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    $chartData = [
+        'modulesParBrief' => [
+            'labels' => $modulesAvecBriefCount->pluck('nom')->toArray(),
+            'data' => $modulesAvecBriefCount->pluck('brief_projets_count')->toArray()
+        ],
+        'competencesParModule' => [
+            'labels' => $competencesParModule->pluck('nom')->toArray(),
+            'data' => $competencesParModule->pluck('competences_count')->toArray()
+        ],
+    ];
+    // dd($chartData);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    return view('PlanFormation::admin.dashboard', compact(
+        'nbModules',
+        'nbFormateurs',
+        'nbCompetences',
+        'nbBriefs',
+        'chartData'
+    ));
+}
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+public function getChartData($type)
+{
+    return response()->json(['message' => 'OK']);
+}
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+
 }

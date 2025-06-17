@@ -69,10 +69,11 @@ Route::post('/plans/import', [PlanController::class, 'import'])->name('plans.imp
 
 
 use Modules\PlanFormation\Controllers\DashboardController;
+// Route pour le dashboard
+Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
-Route::middleware(['web' , 'auth'])->group(function () {
-    Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-});
+// Route AJAX pour les données des graphiques
+Route::get('/admin/dashboard/chart-data/{type}', [DashboardController::class, 'getChartData'])->name('admin.dashboard.chart-data');
 
 
 

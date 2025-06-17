@@ -80,16 +80,16 @@ class PlanController extends Controller
 
     public function edit($id)
     {
-        if (!Auth::check() || !Auth::user()->roles->contains('name', 'fomateur')) {
+        if (!Auth::check() || !Auth::user()->roles->contains('name', 'formateur')) {
             return redirect()->route('plans.index');
         }
 
         $plan = PlanAnnuel::findOrFail($id);
-        $this->authorize('edit', $plan);
+        // $this->authorize('edit', $plan);
         $modules = Module::all();
         $briefs = BriefProjet::all();
         $competences = Competence::all();
-        $selectedBriefs = $plan->briefs->pluck('id')->toArray();
+        $selectedBriefs = $plan->briefProjets->pluck('id')->toArray();
 
         return view('PlanFormation::admin.plan.edit', compact('plan', 'modules', 'briefs', 'selectedBriefs', 'competences'));
     }

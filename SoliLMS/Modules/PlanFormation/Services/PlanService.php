@@ -93,24 +93,36 @@ class PlanService
     public function update($request, $id)
     {
         $validated = $request->validate([
-            'module' => 'required|exists:modules,id',
-            'brief' => 'required|exists:brief_projets,id',
-            'competence' => 'required|exists:competences,id',
-            'briefs' => 'array',
+            'modules' => 'required|array|min:1',
+            'modules.*' => 'exists:modules,id',
+            'briefs' => 'required|array|min:1',
             'briefs.*' => 'exists:brief_projets,id',
-        ]);
+            'competences' => 'required|array|min:1',
+            'competences.*' => 'exists:competences,id',
+    ]);
 
         $plan = PlanAnnuel::findOrFail($id);
-        $plan->update([
-            'module_id' => $validated['module'],
-            'brief_id' => $validated['brief'],
-            'competence_id' => $validated['competence'],
-        ]);
 
-        $plan->briefs()->sync($validated['briefs'] ?? []);
+        // Réinitialiser les anciennes associations
+        Module::where('plan_annuel_id', $plan->id)->update(['plan_annuel_id' => null]);
+        BriefProjet::where('plan_annuel_id', $plan->id)->update(['plan_annuel_id' => null]);
+        Competence::where('plan_annuel_id', $plan->id)->update(['plan_annuel_id' => null]);
+
+
+        foreach ($validated['modules'] as $moduleId) {
+            Module::where('id', $moduleId)->update(['plan_annuel_id' => $plan->id]);
+        }
+
+        foreach ($validated['briefs'] as $briefId) {
+            BriefProjet::where('id', $briefId)->update(['plan_annuel_id' => $plan->id]);
+        }
+
+        foreach ($validated['competences'] as $competenceId) {
+            Competence::where('id', $competenceId)->update(['plan_annuel_id' => $plan->id]);
+        }
 
         return $plan;
-    }
+}
 
     public function destroy($id)
     {

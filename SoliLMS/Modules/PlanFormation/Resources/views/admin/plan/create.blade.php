@@ -40,7 +40,6 @@
                 @endforeach
               </select>
             </div>
-
             {{-- Briefs (Multi-Select Dropdown) --}}
             <div class="mb-3">
               <label for="briefs" class="form-label">Briefs Projets</label>
@@ -56,7 +55,6 @@
                 @endforeach
               </select>
             </div>
-
             {{-- Competences (Multi-Select Dropdown) --}}
             <div class="mb-3">
               <label for="competence" class="form-label">Compétences</label>
@@ -72,7 +70,6 @@
                 @endforeach
               </select>
             </div>
-
             {{-- Boutons d'action --}}
             <div class="text-center">
               <a href="{{ route('plans.index') }}" class="btn btn-secondary">Retour</a>

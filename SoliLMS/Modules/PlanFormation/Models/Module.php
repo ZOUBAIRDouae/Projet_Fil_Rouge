@@ -15,11 +15,11 @@ class Module extends Model
 
     public function briefProjets()
     {
-        return $this->hasMany(BriefProjet::class);
+        return $this->hasMany(BriefProjet::class , 'module_id');
     }
 
     public function competences(){
-        return $this->hasMany(Competence::class);
+        return $this->hasMany(Competence::class , 'module_id');
     }
 
     public function plans(){

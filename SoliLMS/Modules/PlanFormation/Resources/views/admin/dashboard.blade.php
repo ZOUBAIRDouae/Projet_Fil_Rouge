@@ -1,98 +1,124 @@
 @extends('layouts.admin')
 
-
 @section('title', 'Tableau de Bord')
 
 @section('content_header')
     <h1>Tableau de Bord</h1>
-@stop
+@endsection
 
 @section('content')
-<div class="row">
-        {{-- Bloc Modules --}}
-        <div class="col-md-4">
-            <div class="card text-center">
-                <div class="card-body">
-                    <i class="fas fa-layer-group fa-2x text-primary mb-2"></i>
-                    <h5>Modules</h5>
-                    <p class="display-4">{{ $nbModules }}</p>
-                    <a href="{{ route('modules.index') }}" class="btn btn-secondary btn-sm">Afficher les modules</a>
-                </div>
-            </div>
-        </div>
-    
-        {{-- Bloc Formateurs --}}
-        <div class="col-md-4">
-            <div class="card text-center">
-                <div class="card-body">
-                    <i class="fas fa-user fa-2x text-primary mb-2"></i>
-                    <h5>Formateurs</h5>
-                    <p class="display-4">{{ $nbFormateurs }}</p>
-                    <a href="{{ route('formateurs.index') }}" class="btn btn-secondary btn-sm">View</a>
-                </div>
-            </div>
-        </div>
-    
-        {{-- Bloc Compétences --}}
-        <div class="col-md-4">
-            <div class="card text-center">
-                <div class="card-body">
-                    <i class="fas fa-check fa-2x text-primary mb-2"></i>
-                    <h5>Compétences</h5>
-                    <p class="display-4">{{ $nbCompetences }}</p>
-                    <a href="{{ route('competences.index') }}" class="btn btn-secondary btn-sm">View</a>
-                </div>
-            </div>
-        </div>
-
-    {{-- Bloc Séances --}}
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <strong>Formations</strong>
-            </div>
-            <div class="card-body">
-                <div class="d-flex">
-                    <i class="fas fa-calendar-alt fa-2x text-primary mr-3"></i>
-                    <div>
-                        <strong>Séances</strong><br>
-                        @forelse ($prochainesSeances as $seance)
-                            <div>
-                                {{ \Carbon\Carbon::parse($seance->heure_debut)->format('d/m/Y H:i') }} à 
-                                {{ \Carbon\Carbon::parse($seance->heure_fin)->format('H:i') }}
-                            </div>
-                        @empty
-                            <div>Aucune séance prévue</div>
-                        @endforelse
-                    </div>
-                </div>
-                {{-- <a href="{{ route('seances.index') }}" class="btn btn-primary btn-sm mt-3">Voir le planning</a> --}}
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="info-box bg-info">
+            <span class="info-box-icon"><i class="fas fa-cubes"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Modules</span>
+                <span class="info-box-number">{{ $nbModules }}</span>
             </div>
         </div>
     </div>
-
-    {{-- Bloc Briefs (Exemple statique, tu peux l’adapter si tu veux lier aux données) --}}
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <strong>Formations</strong>
-            </div>
-            <div class="card-body">
-                <div class="d-flex">
-                    <i class="fas fa-clipboard fa-2x text-primary mr-3"></i>
-                    <div>
-                        <strong>Briefs projet</strong><br>
-                        Développement d’un portfolio web
-                    </div>
-                </div>
-                <div class="mt-3">
-                    <strong>Cours</strong><br>
-                    <span class="badge badge-secondary">A fair</span>
-                </div>
+    <div class="col-md-3">
+        <div class="info-box bg-success">
+            <span class="info-box-icon"><i class="fas fa-chalkboard-teacher"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Formateurs</span>
+                <span class="info-box-number">{{ $nbFormateurs }}</span>
             </div>
         </div>
     </div>
-
+    <div class="col-md-3">
+        <div class="info-box bg-warning">
+            <span class="info-box-icon"><i class="fas fa-tasks"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Compétences</span>
+                <span class="info-box-number">{{ $nbCompetences }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="info-box bg-danger">
+            <span class="info-box-icon"><i class="fas fa-file-alt"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Briefs Projets</span>
+                <span class="info-box-number">{{ $nbBriefs }}</span>
+            </div>
+        </div>
+    </div>
 </div>
-@stop
 
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Briefs par Module</div>
+            <div class="card-body">
+                <canvas id="briefsParModuleChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Compétences par Module</div>
+            <div class="card-body">
+                <canvas id="competencesParModuleChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+@section('js')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const chartData = @json($chartData);
+    console.log("chartData:", chartData);
+
+    const briefsCtx = document.getElementById('briefsParModuleChart');
+    if (briefsCtx) {
+        new Chart(briefsCtx, {
+            type: 'bar',
+            data: {
+                labels: chartData.modulesParBrief.labels,
+                datasets: [{
+                    label: 'Briefs par Module',
+                    data: chartData.modulesParBrief.data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    const competencesCtx = document.getElementById('competencesParModuleChart');
+    if (competencesCtx) {
+        new Chart(competencesCtx, {
+            type: 'bar',
+            data: {
+                labels: chartData.competencesParModule.labels,
+                datasets: [{
+                    label: 'Compétences par Module',
+                    data: chartData.competencesParModule.data,
+                    backgroundColor: 'rgba(255, 206, 86, 0.6)'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+});
+</script>
+@endsection
