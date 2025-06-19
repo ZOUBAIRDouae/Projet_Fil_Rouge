@@ -1,5 +1,4 @@
-@extends('layouts.admin')
-
+ @extends('PlanFormation::layouts.admin')
 @section('content')
 <style>
   /* Container centré */

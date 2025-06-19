@@ -3,35 +3,30 @@
 namespace Modules\PlanFormation\database\seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Modules\PlanFormation\Models\Seance;
+use Modules\PlanFormation\Models\PlanAnnuel;
+use Modules\PlanFormation\Models\Module;
+use Modules\PlanFormation\Models\Formateur;
 
 class SeanceSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        DB::table('seances')->insert([
-            [
-                'heure_debut' => '2025-03-01 09:00:00',
-                'heure_fin' => '2025-03-01 12:00:00',
-                'num_semaine' => 9,
-                'heures' => 3,
-                'plan_annuel_id' => 1,
-                'formateur_id' => 1,
-                'module_id' => 1,
-            ],
-            [
-                'heure_debut' => '2025-04-10 14:00:00',
-                'heure_fin' => '2025-04-10 17:00:00',
-                'num_semaine' => 15,
-                'heures' => 3,
-                'plan_annuel_id' => 2,
-                'formateur_id' => 2,
-                'module_id' => 2,
-            ],
-        ]);
+        $plans = PlanAnnuel::all();
+        $modules = Module::all();
+        $formateurs = Formateur::all();
+
+        foreach ($plans as $plan) {
+            foreach ($modules as $mod) {
+                Seance::create([
+                    'heure_debut'   => now()->startOfWeek()->addDay()->toDateString(),
+                    'heure_fin'     => now()->startOfWeek()->addDay()->toDateString(),
+                    'num_semaine'   => 1,
+                    'plan_annuel_id'=> $plan->id,
+                    'formateur_id'  => $formateurs->random()->id,
+                    'module_id'     => $mod->id,
+                ]);
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+ @extends('PlanFormation::layouts.admin')
 
 @section('content')
     <h1>Détails du formateur</h1>

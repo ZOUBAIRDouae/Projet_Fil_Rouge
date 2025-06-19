@@ -8,20 +8,28 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('briefs_projets', function (Blueprint $table) {
-            $table->unsignedBigInteger('module_id')->nullable()->after('id');
+        // only add if it doesn't already exist
+        if (! Schema::hasColumn('brief_projets', 'module_id')) {
+            Schema::table('brief_projets', function (Blueprint $table) {
+                $table->unsignedBigInteger('module_id')
+                    ->nullable()
+                    ->after('id');
 
-            $table->foreign('module_id')
-                  ->references('id')->on('modules')
-                  ->onDelete('set null');
-        });
+                $table->foreign('module_id')
+                    ->references('id')->on('modules')
+                    ->onDelete('set null');
+            });
+        }
     }
-    
+
     public function down(): void
     {
-        Schema::table('briefs_projets', function (Blueprint $table) {
-            $table->dropForeign(['module_id']);
-            $table->dropColumn('module_id');
-        });
+        // only drop if it exists
+        if (Schema::hasColumn('brief_projets', 'module_id')) {
+            Schema::table('brief_projets', function (Blueprint $table) {
+                $table->dropForeign(['module_id']);
+                $table->dropColumn('module_id');
+            });
+        }
     }
 };
