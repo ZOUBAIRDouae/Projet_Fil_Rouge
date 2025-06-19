@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+ @extends('PlanFormation::layouts.admin')
 
 @section('content')
 <div class="container-fluid px-4">

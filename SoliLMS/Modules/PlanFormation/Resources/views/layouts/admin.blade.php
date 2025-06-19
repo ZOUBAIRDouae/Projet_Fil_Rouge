@@ -11,8 +11,6 @@
     <title>SoliLMS</title>
 
     @vite(['resources/sass/admin.scss'])
-    <script type="module" src="http://localhost:5173/resources/js/admin.js"></script>
-    <link rel="stylesheet" href="http://localhost:5173/resources/sass/admin.scss">
 </head>
 
 <body class="layout-fixed sidebar-expand-lg sidebar-mini sidebar-collapse bg-body-tertiary">
@@ -26,58 +24,73 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto">
-                    </ul>
-
-                    <ul class="navbar-nav ms-auto">
-                        @guest
-                        @if (Route::has('login'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>
-                        @endif
-                        @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                        </li>
-                        @endif
-                        @else
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }}
+               <div class="dropdown">
+                    @guest
+                        <div class="d-flex gap-2">
+                            @if (Route::has('login'))
+                            <a class="btn btn-outline-primary" href="{{ route('login') }}">
+                                <i class="fas fa-sign-in-alt me-1"></i>{{ __('Login') }}
                             </a>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
+                            @endif
+                            @if (Route::has('register'))
+                            <a class="btn btn-primary" href="{{ route('register') }}">
+                                <i class="fas fa-user-plus me-1"></i>{{ __('Register') }}
+                            </a>
+                            @endif
+                        </div>
+                    @else
+                        <button class="btn btn-light dropdown-toggle border-0 d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 32px; height: 32px;">
+                                <span class="text-white fw-semibold small">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                            </div>
+                            <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3">
+                            <li><a class="dropdown-item py-2" href="#"><i class="fas fa-user me-2 text-muted"></i>{{ __('Profile') }}</a></li>
+                            <li><a class="dropdown-item py-2" href="#"><i class="fas fa-cog me-2 text-muted"></i>{{ __('Settings') }}</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item py-2 text-danger" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <i class="fas fa-sign-out-alt me-2"></i>{{ __('Logout') }}
                                 </a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
                                 </form>
-                            </div>
-                        </li>
-                        @endguest
-                    </ul>
+                            </li>
+                        </ul>
+                    @endguest
                 </div>
             </div>
         </nav>
 
         <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
-            <div class="sidebar-brand"> <a href="{{ route('admin.dashboard') }}" class="brand-link"> <span class="brand-text fw-light">Dashboard</span> </a> </div>class="fa-solid fa-blog"></i> <span class="brand-text fw-light">Plan</span> </a> </div>
+            <div class="sidebar-brand">  
+                       <a href="{{ url('/') }}" class="brand-link" style="display: inline-flex; align-items: center; white-space: nowrap; gap: 4px;">
+                    <div class="logo-icon">
+                       <img src="{{ asset('favicon.ico') }}" class="fa-solid fa-blog" alt="Home" width="32" height="32">
+                    </div>
+                    <span class="brand-text fw-light">SoliLMS</span>
+                </a>
+            </div>
             <div class="sidebar-wrapper">
                 <nav class="mt-2">
                     <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
                         <li class="nav-item"> 
+                            <a href="{{ route('admin.dashboard') }}" class="nav-link"> 
+                            <i class="nav-icon fas fa-fas fa-chart-bar"></i>
+                                <p>Dashboard</p>
+                            </a> 
+                        </li>
+                        <li class="nav-item"> 
                             <a href="{{ route('plans.index') }}" class="nav-link"> 
-                            <i class="fa-solid fa-newspaper"></i>
+                            <i class="nav-icon fas fa-table"></i>
                                 <p>Plan</p>
                             </a> 
                         </li>
                         <li class="nav-item"> 
                             <a href="{{ route('modules.index') }}" class="nav-link"> 
-                            <i class="fa-solid fa-layer-group"></i>
+                            <i class="fa-solid fa-tags"></i>
                                 <p>Modules</p>
                             </a> 
                         </li>
@@ -89,7 +102,7 @@
                         </li>
                         <li class="nav-item"> 
                             <a href="{{ route('competences.index') }}" class="nav-link"> 
-                            <i class="fa-solid fa-tags"></i>
+                            <i class="fa-solid fa-competences"></i>
                                 <p>Competences</p>
                             </a> 
                         </li>
@@ -119,7 +132,7 @@
     <!-- Scripts -->
     @vite(['resources/js/admin.js'])
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 
 </body>
 

@@ -1,5 +1,4 @@
-@extends('layouts.admin')
-
+ @extends('PlanFormation::layouts.admin')
 @section('content')
 <div class="container ">
   <h1>Gestion des Modules</h1>

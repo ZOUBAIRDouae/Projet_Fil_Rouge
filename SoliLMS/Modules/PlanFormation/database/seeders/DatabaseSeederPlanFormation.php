@@ -2,27 +2,23 @@
 
 namespace Modules\PlanFormation\database\seeders;
 
-use Modules\PlanFormation\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
-
-
 
 class DatabaseSeederPlanFormation extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-
         $this->call([
-            PlanAnnuelSeeder::class,
-            FormateurSeeder::class,
+            // 1) create users (if needed)
             UserSeeder::class,
+
+            // 2) create formateurs
+            FormateurSeeder::class,
+
+            // 3) create annual plans
+            PlanAnnuelSeeder::class,
+
+            // 4) create modules, competences, briefs, evaluations, seances
             ModuleSeeder::class,
             CompetenceSeeder::class,
             BriefProjetSeeder::class,

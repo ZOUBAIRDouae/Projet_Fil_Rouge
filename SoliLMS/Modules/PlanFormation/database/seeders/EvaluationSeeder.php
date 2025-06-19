@@ -3,25 +3,25 @@
 namespace Modules\PlanFormation\database\seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Modules\PlanFormation\Models\Evaluation;
+use Modules\PlanFormation\Models\BriefProjet;
 
 class EvaluationSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        DB::table('evaluations')->insert([
-            [
-                'type' => 'CC',
-                'brief_projet_id' => 1,
-            ],
-            [
-                'type' => 'EFM',
-                'brief_projet_id' => 2,
-            ],
-        ]);
+        $briefs = BriefProjet::all();
+
+        foreach ($briefs as $brief) {
+            Evaluation::create([
+                'type'           => 'Quiz',
+                'brief_projet_id' => $brief->id,
+            ]);
+
+            Evaluation::create([
+                'type'           => 'Examen',
+                'brief_projet_id' => $brief->id,
+            ]);
+        }
     }
 }
