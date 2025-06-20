@@ -6,9 +6,10 @@
 
   <div class="card shadow">
     <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-center">
-      <form method="GET" action="{{ route('briefs.index') }}" class="d-flex flex-wrap gap-2 align-items-center">
+      <form method="GET" action="{{ route('briefs.index') }}" class="d-flex gap-2 align-items-center">
         <input type="text" name="search" id="search" class="form-control" value="{{ request('search') }}" placeholder="Rechercher un brief">
-        <button type="submit" class="btn btn-primary">Rechercher</button>
+        <button type="submit" class="btn btn-outline-primary ms-2"> <i class="fas fa-search"></i>
+      </button>
       </form>
       <a href="{{ route('briefs.create') }}" class="btn btn-success mt-3 mt-md-0">
         <i class="fas fa-plus-circle me-1"></i> Ajouter un Brief
