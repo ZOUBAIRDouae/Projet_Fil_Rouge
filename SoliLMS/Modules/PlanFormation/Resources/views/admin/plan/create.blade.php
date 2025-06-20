@@ -21,9 +21,21 @@
                 </ul>
               </div>
             @endif
-            <input name="date_debut" type="date" required>
-            <input name="date_fin" type="date" required>
-            <input name="filiere" type="text" required>
+              {{-- Date début --}}
+            <div class="mb-3">
+                <label for="date_debut" class="form-label">Date de début</label>
+                <input id="date_debut" name="date_debut" type="date" class="form-control" required>
+            </div>
+              {{-- Date fin --}}
+            <div class="mb-3">
+                <label for="date_fin" class="form-label">Date de fin</label>
+                <input id="date_fin" name="date_fin" type="date" class="form-control" required>
+            </div>
+              {{-- Filière --}}
+            <div class="mb-3">
+                <label for="filiere" class="form-label">Filière</label>
+                <input id="filiere" name="filiere" type="text" class="form-control" required>
+            </div>
             {{-- Module --}}
             <div class="mb-3">
               <label for="modules" class="form-label">Module</label>

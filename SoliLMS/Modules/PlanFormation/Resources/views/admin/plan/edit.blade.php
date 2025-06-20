@@ -59,6 +59,21 @@
                 @endforeach
               </select>
             </div>
+                        {{-- Evaluations (Multi-Select Dropdown) --}}
+                        {{-- <div class="mb-3">
+                          <label for="evaluations" class="form-label">Type d'evaluation</label>
+                            <select
+                              name="evaluations[]"
+                              id="evaluation"
+                              class="form-select"
+                              multiple required>
+                              @foreach($evaluations as $evaluation)
+                                <option value="{{ $evaluation->id }}">
+                                  {{ $evaluation->type }}
+                                </option>
+                              @endforeach
+                            </select>
+                        </div> --}}
             {{-- Boutons d'action --}}
             <div class="mt-5 d-flex justify-content-between">
               <a href="{{ route('plans.index') }}" class="btn btn-secondary">Retour au plan</a>

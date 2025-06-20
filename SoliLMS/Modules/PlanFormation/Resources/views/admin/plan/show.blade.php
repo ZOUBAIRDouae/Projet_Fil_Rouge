@@ -25,7 +25,6 @@
                 <span class="font-weight-semibold text-muted">No module available</span>
             @endif
             </p>
-
             <!-- Briefs -->
             <p>Briefs:
                 @if($plan->briefProjets && $plan->briefProjets->isNotEmpty())
@@ -38,7 +37,6 @@
                     <span class="font-weight-semibold text-muted">No briefs available</span>
                 @endif
             </p>
-
             <!-- Competences -->
             <p>Competences:
                 @if($plan->competences && $plan->competences->isNotEmpty())

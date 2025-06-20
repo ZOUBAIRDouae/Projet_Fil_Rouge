@@ -35,6 +35,7 @@ class DashboardController extends Controller
         ],
     ];
     // dd($chartData);
+    // dd($competencesParModule->pluck('nom'), $competencesParModule->pluck('competences_count'));
 
     return view('PlanFormation::admin.dashboard', compact(
         'nbModules',

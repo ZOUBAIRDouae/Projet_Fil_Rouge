@@ -23,8 +23,8 @@
         <!-- Navigation -->
         <nav class="bg-white shadow">
             <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-                <a href="{{ url('/') }}" class="text-2xl font-bold text-blue-600">
-                    Plan
+                <a href="{{ url('/assets/images/logo.png') }}" class="text-2xl font-bold text-blue-600">
+                    SOLILMS
                 </a>
                 <div class="flex space-x-4">
                     <!-- Authentication Links -->

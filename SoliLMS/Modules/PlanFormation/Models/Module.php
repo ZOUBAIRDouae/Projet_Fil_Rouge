@@ -25,4 +25,12 @@ class Module extends Model
     public function plans(){
         return $this->belongsTo(PlanAnnuel::class);
     }
+
+    public function evaluations()
+    { 
+        return $this->hasMany(Evaluation::class , 'module_id');
+    }
+
+
+
 }

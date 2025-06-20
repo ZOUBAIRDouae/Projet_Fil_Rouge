@@ -18,6 +18,8 @@
     @vite(['resources/sass/public.scss'])
     <script type="module" src="http://localhost:5173/resources/js/admin.js"></script>
     <link rel="stylesheet" href="http://localhost:5173/resources/sass/admin.scss">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body class="bg-gray-100 text-gray-800">
@@ -25,8 +27,8 @@
         <!-- Navigation -->
         <nav class="bg-white shadow">
             <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-                <a href="{{ url('/') }}" class="text-2xl font-bold text-blue-600">
-                    Plan
+                <a href="{{ url('/assets/images/logo.png') }}" class="text-2xl font-bold text-blue-600">
+                    SOLILMS
                 </a>
                 <div class="flex space-x-4">
                     <!-- Authentication Links -->

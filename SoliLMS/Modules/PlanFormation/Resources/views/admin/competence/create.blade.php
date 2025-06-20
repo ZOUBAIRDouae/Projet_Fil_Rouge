@@ -7,7 +7,7 @@
     <div class="col-md-8">
       <div class="card shadow-sm border-0">
         <div class="card-header bg-success text-white text-center">
-          <h5>Ajouter une Compétences</h5>
+          <h5>Ajouter une Compétence</h5>
         </div>
 
         <div class="card-body">

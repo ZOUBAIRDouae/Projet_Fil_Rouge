@@ -6,9 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Evaluation extends Model
 {
-    protected $fillable = ['type', 'brief_projet_id'];
+    protected $fillable = ['type', 'module_id' ,  'brief_projet_id'];
 
-    public function briefProjet()
+    public function modules()
+    {
+        return $this->belongsTo(Module::class);
+    }
+    public function briefProjets()
     {
         return $this->belongsTo(BriefProjet::class);
     }

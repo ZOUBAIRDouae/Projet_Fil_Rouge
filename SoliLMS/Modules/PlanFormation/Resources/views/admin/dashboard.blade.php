@@ -51,7 +51,7 @@
         <div class="card">
             <div class="card-header">Briefs par Module</div>
             <div class="card-body">
-                <canvas id="briefsParModuleChart"></canvas>
+                <canvas id="briefsParModuleChart" style="width: 100%; max-height: 300px;"></canvas>
             </div>
         </div>
     </div>
@@ -59,16 +59,16 @@
         <div class="card">
             <div class="card-header">Compétences par Module</div>
             <div class="card-body">
-                <canvas id="competencesParModuleChart"></canvas>
+                <canvas id="competencesParModuleChart" style="width: 100%; max-height: 300px;"></canvas>
             </div>
         </div>
     </div>
 </div>
 @endsection
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 @section('js')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const chartData = @json($chartData);
@@ -88,7 +88,14 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 scales: {
+                    x: {
+                        ticks: {
+                            maxRotation: 45,
+                            minRotation: 45
+                        }
+                    },
                     y: {
                         beginAtZero: true
                     }
@@ -111,7 +118,14 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 scales: {
+                    x: {
+                        ticks: {
+                            maxRotation: 45,
+                            minRotation: 45
+                        }
+                    },
                     y: {
                         beginAtZero: true
                     }

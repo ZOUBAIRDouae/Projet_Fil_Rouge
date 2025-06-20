@@ -33,6 +33,14 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
         $formateur->assignRole('formateur');
+
+        $user = User::create([
+            'name' => 'Responsable',
+            'email' => 'responsable@solicode.com',
+            'password' => bcrypt('formateur')]);
+            
+        $role = Role::findByName('admin', 'web');   
+        $user->assignRole('responsable');
     }
 
     

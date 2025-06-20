@@ -31,4 +31,16 @@ class PlanAnnuel extends Model
     {
         return $this->belongsTo(Formateur::class);
     }
+
+    public function evaluationsModules()
+{
+    return $this->hasManyThrough(Evaluation::class, Module::class, 'plan_annuel_id', 'module_id', 'id', 'id');
+}
+
+public function evaluationsBriefs()
+{
+    return $this->hasManyThrough(Evaluation::class, BriefProjet::class, 'plan_annuel_id', 'brief_projet_id', 'id', 'id');
+}
+
+    
 }

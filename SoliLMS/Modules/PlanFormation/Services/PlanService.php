@@ -7,6 +7,7 @@ use Modules\PlanFormation\Models\Module;
 use Modules\PlanFormation\Models\BriefProjet;
 use Modules\PlanFormation\Models\Competence;
 use Modules\PlanFormation\Models\User;
+use Modules\PlanFormation\Models\Evaluation;
 
 
 
@@ -99,6 +100,8 @@ class PlanService
             'briefs.*' => 'exists:brief_projets,id',
             'competences' => 'required|array|min:1',
             'competences.*' => 'exists:competences,id',
+            // 'evaluations' => 'required|array|min:1',
+            // 'evaluation.*' => 'exists:evaluations,id',
     ]);
 
         $plan = PlanAnnuel::findOrFail($id);
@@ -107,6 +110,7 @@ class PlanService
         Module::where('plan_annuel_id', $plan->id)->update(['plan_annuel_id' => null]);
         BriefProjet::where('plan_annuel_id', $plan->id)->update(['plan_annuel_id' => null]);
         Competence::where('plan_annuel_id', $plan->id)->update(['plan_annuel_id' => null]);
+
 
 
         foreach ($validated['modules'] as $moduleId) {

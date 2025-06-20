@@ -17,10 +17,12 @@ class BriefProjet extends Model
 
     public function evaluations()
     {
-        return $this->hasMany(Evaluation::class);
+        return $this->hasOne(Evaluation::class , 'brief_projet_id');
     }
 
     public function plans(){
         return $this->belongsTo(PlanAnnuel::class);
     }
+
+
 }

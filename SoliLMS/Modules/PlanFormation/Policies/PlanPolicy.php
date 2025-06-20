@@ -8,21 +8,16 @@ use Illuminate\Auth\Access\Response;
 
 class PlanPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
+    
     public function viewAny(User $user): bool
     {
-        return false;
+        return $user->hasRole('responsable') || $user->hasRole('formateur') || $user->hasPermissionTo('plan.view');
     }
-
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Article $article): bool
+   
+    public function view(User $user, PlanAnnuel $plan): bool|Response
     {
-        return false;
-    }
+        return $user->hasRole('responsable') || $user->hasRole('formateur') || $user->hasPermissionTo('plan.view');
+    }    
 
     /**
      * Determine whether the user can create models.

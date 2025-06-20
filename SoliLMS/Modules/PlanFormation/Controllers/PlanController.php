@@ -8,6 +8,7 @@ use Modules\PlanFormation\Models\PlanAnnuel;
 use Modules\PlanFormation\Models\Module;
 use Modules\PlanFormation\Models\BriefProjet;
 use Modules\PlanFormation\Models\Competence;
+use Modules\PlanFormation\Models\Evaluation;
 
 
 use Modules\PlanFormation\Services\PlanService;
@@ -33,15 +34,17 @@ class PlanController extends Controller
     }
 
     public function index(Request $request)
-    {
-        $data = $this->planService->index($request);
-        
-        if (Auth::check() && Auth::user()->roles->contains('name', 'formateur')) {
-            return view('PlanFormation::admin.plan.index', $data);
-        } else {
-            return view('PlanFormation::public.index', $data);
-        }
+{
+    // $this->authorize('viewAny', PlanAnnuel::class);
+
+    $data = $this->planService->index($request);
+
+    if (Auth::check() && Auth::user()->hasAnyRole(['formateur', 'responsable'])) {
+        return view('PlanFormation::admin.plan.index', $data);
+    } else {
+        return view('PlanFormation::public.index', $data);
     }
+}
 
     public function create()    
     {
@@ -52,6 +55,7 @@ class PlanController extends Controller
         $modules = Module::all();
         $briefs = BriefProjet::all();
         $competences = Competence::all();
+        // $evaluations = Evaluation::all();
 
         return view('PlanFormation::admin.plan.create', compact('modules', 'briefs', 'competences'));
     }
@@ -86,6 +90,8 @@ class PlanController extends Controller
 
         $plan = PlanAnnuel::findOrFail($id);
         // $this->authorize('edit', $plan);
+        // $this->authorize('view', $plan);
+        // $evaluations = Evaluation::all();    
         $modules = Module::all();
         $briefs = BriefProjet::all();
         $competences = Competence::all();

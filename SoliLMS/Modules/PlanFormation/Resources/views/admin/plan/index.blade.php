@@ -41,7 +41,6 @@
                                 </option>
                             @endforeach
                         </select>
-
                         <button type="submit" class="btn btn-outline-primary">
                             <i class="fas fa-filter"></i>
                         </button>
@@ -66,14 +65,14 @@
                         <i class="fas fa-arrow-down"></i>
                     </a>
                 
-                    <!-- Import Form (Icon Only) -->
+                    {{-- <!-- Import Form (Icon Only) -->
                     <form action="{{ route('plans.import') }}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center gap-2">
                         @csrf
                         <label for="import-file" class="btn btn-warning mb-0" title="Importer un fichier">
                             <i class="fas fa-arrow-up"></i>
                         </label>
                         <input id="import-file" type="file" name="file" class="d-none" onchange="this.form.submit()" required>
-                    </form>
+                    </form> --}}
                 
                     <!-- Add Plan (Keep Icon + Text for clarity) -->
                     <a href="{{ route('plans.create') }}" class="btn btn-success d-flex align-items-center">
@@ -88,6 +87,7 @@
                         <th>{{ __('PlanFormation::message.Module') }}</th>
                         <th>{{ __('PlanFormation::message.Project Brief') }}</th>
                         <th>{{ __('PlanFormation::message.Skills') }}</th>
+                        <th>Type d'evaluation</th>
                         <th>{{ __('PlanFormation::message.Action') }}</th>
                     </tr>
                 </thead>
@@ -120,7 +120,16 @@
                                 @foreach($plan->competences as $competence)
                                     {{ $competence->nom }}@if(!$loop->last), @endif
                                 @endforeach
-                            </td>                            
+                            </td>
+                            <td>
+                            @php
+                                $evaluations = $plan->evaluationsModules->merge($plan->evaluationsBriefs);
+                            @endphp
+
+                            @foreach($evaluations as $evaluation)
+                                    {{ $evaluation->type }}@if(!$loop->last), @endif
+                            @endforeach
+                            </td>
                             <td>
                                 <a href="{{ route('plans.show', $plan->id) }}" class="btn btn-outline-secondary btn-sm" title="{{ __('PlanFormation::message.display') }}">
                                     <i class="fas fa-eye"></i>

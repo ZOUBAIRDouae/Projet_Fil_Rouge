@@ -10,13 +10,19 @@ use Modules\PlanFormation\Controllers\BriefProjetController;
 use Modules\PlanFormation\Controllers\ModuleController;
 use Modules\PlanFormation\Controllers\CompetenceController;
 use Modules\PlanFormation\Controllers\FormateurController;
+use Modules\PlanFormation\Controllers\EvaluationController;
 
 
 
 
 Auth::routes();
 
-Route::middleware('auth' , 'role:admin|formateur')->group(function () { 
+Route::get('/' , function (){
+  return view('auth.login');
+});
+
+
+Route::middleware('auth' , 'role:admin|formateur|responsable')->group(function () { 
 
   Route::prefix('plans')->group(function () {
     Route::get('/', [PlanController::class, 'index'])->name('plans.index');
@@ -46,6 +52,12 @@ Route::prefix('competences')->group(function () {
   Route::get('/', [CompetenceController::class, 'index'])->name('competences.index');
   Route::get('/create', [CompetenceController::class, 'create'])->name('competences.create');
 });
+Route::prefix('evaluations')->group(function () {
+  Route::get('/', [EvaluationController::class, 'index'])->name('evaluations.index');
+  Route::get('/create', [EvaluationController::class, 'create'])->name('evaluations.create');
+  Route::post('/store', [EvaluationController::class, 'store'])->name('evaluations.store');
+  Route::delete('/{evaluation}', [EvaluationController::class, 'destroy'])->name('evaluations.destroy');
+});
 Route::prefix('formateurs')->group(function () {
   Route::get('/', [FormateurController::class, 'index'])->name('formateurs.index');
   Route::get('formateurs/create', [FormateurController::class, 'create'])->name('formateurs.create');
@@ -64,6 +76,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('plan/export/{format?}', [PlanController::class, 'export'])->name('plan.export');
 Route::post('/plans/import', [PlanController::class, 'import'])->name('plans.import');
+
 
 
 

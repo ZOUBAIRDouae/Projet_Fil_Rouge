@@ -59,9 +59,4 @@ class User extends Authenticatable
         return $this->hasOne(Formateur::class);
     }
 
-
-    // public function comments()
-    // {
-    //     return $this->hasMany(Comment::class);
-    // }
 }
