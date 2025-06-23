@@ -12,6 +12,8 @@ use Modules\PlanFormation\Controllers\CompetenceController;
 use Modules\PlanFormation\Controllers\FormateurController;
 use Modules\PlanFormation\Controllers\EvaluationController;
 
+use Modules\PlanFormation\Controllers\DashboardController;
+
 
 
 
@@ -21,15 +23,24 @@ Route::get('/' , function (){
   return view('auth.login');
 });
 
+// Route::get('/', function () {
+//   if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('formateur') || Auth::user()->hasRole('apprenant')) {
+//     return redirect()->route('admin.dashboard');
+//   }
+//   abort(403);
+// })->middleware('auth');
 
-Route::middleware('auth' , 'role:admin|formateur|responsable')->group(function () { 
+// Route::middleware('auth' , 'role:admin|formateur|responsable')->group(function () { 
+//   Route::get('/', [PlanController::class, 'index'])->name('plans.index');
+// });
+Route::middleware('auth' , 'role:admin|formateur|responsable|apprenant')->group(function () { 
 
   Route::prefix('plans')->group(function () {
     Route::get('/', [PlanController::class, 'index'])->name('plans.index');
     Route::get('/create', [PlanController::class, 'create'])->name('plans.create');
     Route::post('/store', [PlanController::class, 'store'])->name('plans.store');
     Route::get('/{plan}', [PlanController::class, 'show'])->name('plans.show');
-    Route::get('/{plan}/edit', [PlanController::class, 'edit'])->name('plans.edit');
+    Route::get('/{plan}/edit', [PlanController::class, 'edit'])->name('plans.edit');  
     Route::put('/{plan}', [PlanController::class, 'update'])->name('plans.update');
     Route::delete('/{plan}', [PlanController::class, 'destroy'])->name('plans.destroy');
   });
@@ -68,6 +79,16 @@ Route::prefix('formateurs')->group(function () {
 
 
 Route::middleware('auth')->group(function () {
+  
+
+// Route pour le dashboard
+Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+// Route AJAX pour les données des graphiques
+Route::get('/admin/dashboard/chart-data/{type}', [DashboardController::class, 'getChartData'])->name('admin.dashboard.chart-data');
+
+
+
   Route::post('/store', [CompetenceController::class, 'store'])->name('competences.store');
   Route::delete('/{competence}', [CompetenceController::class, 'destroy'])->name('competences.destroy');
  
@@ -77,16 +98,6 @@ Route::middleware('auth')->group(function () {
 Route::get('plan/export/{format?}', [PlanController::class, 'export'])->name('plan.export');
 Route::post('/plans/import', [PlanController::class, 'import'])->name('plans.import');
 
-
-
-
-
-use Modules\PlanFormation\Controllers\DashboardController;
-// Route pour le dashboard
-Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-
-// Route AJAX pour les données des graphiques
-Route::get('/admin/dashboard/chart-data/{type}', [DashboardController::class, 'getChartData'])->name('admin.dashboard.chart-data');
 
 
 

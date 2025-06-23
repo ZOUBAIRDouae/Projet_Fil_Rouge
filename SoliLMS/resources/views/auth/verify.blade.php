@@ -1,28 +1,27 @@
-@extends('layouts.admin')
+@extends('layouts.public')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Verify Your Email Address') }}</div>
+<div class="flex justify-center items-center min-h-[60vh]">
+    <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold mb-6 text-center">Verify Your Email Address</h2>
 
-                <div class="card-body">
-                    @if (session('resent'))
-                        <div class="alert alert-success" role="alert">
-                            {{ __('A fresh verification link has been sent to your email address.') }}
-                        </div>
-                    @endif
-
-                    {{ __('Before proceeding, please check your email for a verification link.') }}
-                    {{ __('If you did not receive the email') }},
-                    <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
-                        @csrf
-                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
-                    </form>
-                </div>
+        @if (session('resent'))
+            <div class="mb-4 text-sm text-green-600 text-center">
+                A new verification link has been sent to your email address.
             </div>
-        </div>
+        @endif
+
+        <p class="mb-4 text-gray-700 text-center">
+            Before proceeding, please check your email for a verification link.
+            If you did not receive the email,
+        </p>
+
+        <form method="POST" action="{{ route('verification.resend') }}" class="text-center">
+            @csrf
+            <button type="submit" class="text-sm text-blue-600 hover:underline">
+                click here to request another
+            </button>
+        </form>
     </div>
 </div>
 @endsection

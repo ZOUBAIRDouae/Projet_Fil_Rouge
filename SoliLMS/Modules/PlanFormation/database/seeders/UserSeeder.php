@@ -42,6 +42,7 @@ class UserSeeder extends Seeder
         $role = Role::findByName('admin', 'web');   
         $user->assignRole('responsable');
     }
+    
 
     
 }

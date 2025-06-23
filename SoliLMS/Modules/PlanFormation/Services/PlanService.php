@@ -52,7 +52,8 @@ class PlanService
                   });
             });
         }
-    
+
+
         // Pagination
         $plans = $query->paginate(10);
         $plans->appends($request->all());
@@ -132,5 +133,6 @@ class PlanService
     {
         $plan = PlanAnnuel::findOrFail($id);
         $plan->delete();
+        return $plan;
     }
 }

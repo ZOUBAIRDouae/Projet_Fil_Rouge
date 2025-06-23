@@ -55,11 +55,9 @@
                     {{ session('success') }}
                 </div>
             @endif
-
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5 class="mb-0">{{ __('PlanFormation::message.Training plan') }}</h5>
                 <div class="d-flex flex-wrap gap-2 justify-content-end align-items-center">
-
                     <!-- Export CSV (Icon Only) -->
                     <a href="{{ route('plan.export', ['format' => 'csv']) }}" class="btn btn-outline-info" title="Exporter CSV">
                         <i class="fas fa-arrow-down"></i>
@@ -75,11 +73,14 @@
                     </form> --}}
                 
                     <!-- Add Plan (Keep Icon + Text for clarity) -->
+                    @can('create' ,  \Modules\PlanFormation\Models\PlanAnnuel::class)
                     <a href="{{ route('plans.create') }}" class="btn btn-success d-flex align-items-center">
                         <i class="fas fa-plus me-2"></i> {{ __('PlanFormation::message.Add plan') }}
                     </a>
+                    @endcan
                 </div>                
             </div>
+            @can('viewAny', \Modules\PlanFormation\Models\PlanAnnuel::class)
             <table class="table table-hover align-middle text-center">
                 <thead class="table-light">
                     <tr>
@@ -88,7 +89,9 @@
                         <th>{{ __('PlanFormation::message.Project Brief') }}</th>
                         <th>{{ __('PlanFormation::message.Skills') }}</th>
                         <th>Type d'evaluation</th>
+                        @can('show', \Modules\PlanFormation\Models\PlanAnnuel::class)
                         <th>{{ __('PlanFormation::message.Action') }}</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody>
@@ -131,15 +134,17 @@
                             @endforeach
                             </td>
                             <td>
+                                @can('show', \Modules\PlanFormation\Models\PlanAnnuel::class)
                                 <a href="{{ route('plans.show', $plan->id) }}" class="btn btn-outline-secondary btn-sm" title="{{ __('PlanFormation::message.display') }}">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                {{-- @can('update', $plan) --}}
+                                @endcan
+                                @can('update', $plan)
                                     <a href="{{ route('plans.edit', $plan->id) }}" class="btn btn-outline-primary btn-sm" title="{{ __('PlanFormation::message.edit') }}">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                {{-- @endcan --}}
-                                {{-- @can('delete', $plan) --}}
+                                @endcan
+                                @can('delete', $plan)
                                     <form action="{{ route('plans.destroy', $plan->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
@@ -147,14 +152,15 @@
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </form>
-                                {{-- @endcan --}}
+                                @endcan
                             </td>
                         </tr>
                         {{-- @endif --}}
                     @endforeach
+                    
                 </tbody>
             </table>
-
+            @endcan
             <div class="d-flex justify-content-center mt-4">
                 {{ $plans->links() }}
             </div>

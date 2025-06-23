@@ -35,16 +35,21 @@ class PlanController extends Controller
 
     public function index(Request $request)
 {
-    // $this->authorize('viewAny', PlanAnnuel::class);
-
+    $this->authorize('viewAny', PlanAnnuel::class);
     $data = $this->planService->index($request);
 
-    if (Auth::check() && Auth::user()->hasAnyRole(['formateur', 'responsable'])) {
-        return view('PlanFormation::admin.plan.index', $data);
-    } else {
-        return view('PlanFormation::public.index', $data);
+    if (Auth::check()) {
+        if (Auth::user()->hasAnyRole(['formateur', 'responsable'])) {
+            return view('PlanFormation::admin.plan.index', $data);
+        } elseif (Auth::user()->hasRole('apprenant')) {
+            return view('PlanFormation::public.index', $data);
+        }
     }
+
+    abort(403, "Accès non autorisé");
 }
+
+    
 
     public function create()    
     {
@@ -52,6 +57,7 @@ class PlanController extends Controller
             return redirect()->route('plans.index');
         }
 
+        $this->authorize('ajouter plan', PlanAnnuel::class);
         $modules = Module::all();
         $briefs = BriefProjet::all();
         $competences = Competence::all();
@@ -73,6 +79,7 @@ class PlanController extends Controller
 
     public function show(string $id)
     {
+        $this->authorize('show', PlanAnnuel::class);
         $plan = $this->planService->show($id);
 
         if (Auth::check() && Auth::user()->roles->contains('name', 'formateur')) {
@@ -89,8 +96,7 @@ class PlanController extends Controller
         }
 
         $plan = PlanAnnuel::findOrFail($id);
-        // $this->authorize('edit', $plan);
-        // $this->authorize('view', $plan);
+        $this->authorize('modifier plan', $plan);
         // $evaluations = Evaluation::all();    
         $modules = Module::all();
         $briefs = BriefProjet::all();
@@ -117,8 +123,8 @@ class PlanController extends Controller
             return redirect()->route('plans.index');
         }
 
-        $this->planService->destroy($id);
-
+        $plan = $this->planService->destroy($id);
+        $this->authorize('delete', $plan);
         return redirect()->route('plans.index')->with('success', 'Plan a bien été supprimé');
     }
 

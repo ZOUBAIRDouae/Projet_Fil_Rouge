@@ -56,7 +56,7 @@
                     <button type="submit" class="btn btn-secondary">Retour au plan</button>
                 </form>
 
-                <div>
+                {{-- <div>
                     <!-- Edit Plan Button -->
                     @can('update', $plan)
                     <form action="/plans/{{ $plan->id }}/edit" method="GET" class="d-inline">
@@ -72,7 +72,7 @@
                         <button type="submit" class="btn btn-danger">Supprimer</button>
                     </form>
                     @endcan
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

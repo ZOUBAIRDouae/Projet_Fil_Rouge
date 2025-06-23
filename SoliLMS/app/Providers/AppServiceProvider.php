@@ -12,9 +12,9 @@ use Modules\PlanFormation\App\Policies\PlanPolicy;
 class AppServiceProvider extends ServiceProvider
 {
 
-    protected $policies = [
-        PlanAnnuel::class => PlanPolicy::class,
-    ];
+    // protected $policies = [
+    //     PlanAnnuel::class => PlanPolicy::class,
+    // ];
     
     public function register(): void
     {

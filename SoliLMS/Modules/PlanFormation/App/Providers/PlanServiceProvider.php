@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Route;
 
 class PlanServiceProvider extends ServiceProvider
 {
+    // protected $policies = [
+    //     PlanAnnuel::class => PlanPolicy::class,
+    // ];
+    
     public function boot()
     {
         $this->loadRoutesFrom(__DIR__.'/../../Routes/web.php');

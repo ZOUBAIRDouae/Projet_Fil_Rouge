@@ -10,21 +10,22 @@ class PlanPolicy
 {
     public function viewAny(User $user): bool
     {
-        return false;
-        // return $user->hasRole('responsable') || $user->hasRole('formateur') || $user->hasPermissionTo('plan.view');
-    }
+        return $user->hasAnyRole(['responsable', 'formateur', 'apprenant']) 
+            || $user->hasPermissionTo('voir plan');
+    }    
    
-    public function view(User $user, PlanAnnuel $plan): bool|Response
+    public function view(User $user): bool
     {
-        return false;
-        // return $user->hasRole('responsable') || $user->hasRole('formateur') || $user->hasPermissionTo('plan.view');
+        
+        return $user->hasRole('responsable') || $user->hasRole('formateur') || $user->hasRole('apprenant') || $user->hasPermissionTo('voir plan');
     }    
     /**
      * Determine whether the user can create models.
      */
     public function create(User $user): bool
     {
-        return false;
+        
+        return $user->hasRole('formateur') || $user->hasPermissionTo('ajouter plan');
     }
 
     /**
@@ -32,16 +33,21 @@ class PlanPolicy
      */
     public function update(User $user, PlanAnnuel $plan): bool
     {
-        return $user->id === $plan->user_id && $user->hasPermissionTo('edit');
+        return $user->hasRole('formateur') || $user->hasPermissionTo('modifier plan');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
     public function delete(User $user, PlanAnnuel $plan): bool
-    {
-        return false;
+    { 
+        return $user->hasRole('formateur') || $user->hasPermissionTo('supprimer plan');
     }
+    public function show(User $user): bool
+    {
+        
+        return $user->hasRole('formateur');
+    } 
 
     /**
      * Determine whether the user can restore the model.

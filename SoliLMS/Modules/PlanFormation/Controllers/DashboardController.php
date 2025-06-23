@@ -8,50 +8,105 @@ use Modules\PlanFormation\Models\BriefProjet;
 use Modules\PlanFormation\Models\Module;
 use Modules\PlanFormation\Models\Formateur;
 use Modules\PlanFormation\Models\Competence;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
     public function index()
-{
-    $nbModules = Module::count();
-    $nbFormateurs = Formateur::count();
-    $nbCompetences = Competence::count();
-    $nbBriefs = BriefProjet::count();
+    {
+        // Basic counts
+        $nbModules = Module::count();
+        $nbFormateurs = Formateur::count();
+        $nbCompetences = Competence::count();
+        $nbBriefs = BriefProjet::count();
 
-    $modulesAvecBriefCount = Module::withCount('briefProjets')->orderBy('brief_projets_count', 'desc')->limit(10)->get();
-    $competencesParModule = Module::withCount('competences')->orderBy('competences_count', 'desc')->limit(8)->get();
+        // Chart data for modules with briefs
+        $modulesAvecBriefCount = Module::withCount('briefProjets')
+            ->orderBy('brief_projets_count', 'desc')
+            ->limit(10)
+            ->get();
 
-    // En développement tu peux décommenter pour debuguer
-    // dd($modulesAvecBriefCount, $competencesParModule);
+        // Chart data for competences per module
+        $competencesParModule = Module::withCount('competences')
+            ->orderBy('competences_count', 'desc')
+            ->limit(8)
+            ->get();
 
-    $chartData = [
-        'modulesParBrief' => [
-            'labels' => $modulesAvecBriefCount->pluck('nom')->toArray(),
-            'data' => $modulesAvecBriefCount->pluck('brief_projets_count')->toArray()
-        ],
-        'competencesParModule' => [
-            'labels' => $competencesParModule->pluck('nom')->toArray(),
-            'data' => $competencesParModule->pluck('competences_count')->toArray()
-        ],
-    ];
-    // dd($chartData);
-    // dd($competencesParModule->pluck('nom'), $competencesParModule->pluck('competences_count'));
+        // Brief status distribution
+        $briefsParStatut = BriefProjet::select('statut', DB::raw('count(*) as total'))
+            ->groupBy('statut')
+            ->get();
 
-    return view('PlanFormation::admin.dashboard', compact(
-        'nbModules',
-        'nbFormateurs',
-        'nbCompetences',
-        'nbBriefs',
-        'chartData'
-    ));
-}
+        // Monthly growth data (last 6 months)
+        $monthlyGrowth = [];
+        for ($i = 5; $i >= 0; $i--) {
+            $date = now()->subMonths($i);
+            $monthlyGrowth[] = [
+                'month' => $date->format('M'),
+                'modules' => Module::whereMonth('created_at', $date->month)
+                    ->whereYear('created_at', $date->year)
+                    ->count(),
+                'briefs' => BriefProjet::whereMonth('created_at', $date->month)
+                    ->whereYear('created_at', $date->year)
+                    ->count(),
+                'competences' => Competence::whereMonth('created_at', $date->month)
+                    ->whereYear('created_at', $date->year)
+                    ->count(),
+                'formateurs' => Formateur::whereMonth('created_at', $date->month)
+                    ->whereYear('created_at', $date->year)
+                    ->count(),
+            ];
+        }
 
+        // Top modules by competences
+        $topModulesCompetences = Module::withCount('competences')
+            ->having('competences_count', '>', 0)
+            ->orderBy('competences_count', 'desc')
+            ->limit(5)
+            ->get();
 
+        // Prepare all chart data
+        $chartData = [
+            'modulesParBrief' => [
+                'labels' => $modulesAvecBriefCount->pluck('nom')->toArray(),
+                'data' => $modulesAvecBriefCount->pluck('brief_projets_count')->toArray()
+            ],
+            'competencesParModule' => [
+                'labels' => $competencesParModule->pluck('nom')->toArray(),
+                'data' => $competencesParModule->pluck('competences_count')->toArray()
+            ],
+            'briefsParStatut' => [
+                'labels' => $briefsParStatut->pluck('statut')->toArray(),
+                'data' => $briefsParStatut->pluck('total')->toArray()
+            ],
+            'monthlyGrowth' => $monthlyGrowth,
+            'topModulesCompetences' => [
+                'labels' => $topModulesCompetences->pluck('nom')->toArray(),
+                'data' => $topModulesCompetences->pluck('competences_count')->toArray()
+            ]
+        ];
 
-public function getChartData($type)
-{
-    return response()->json(['message' => 'OK']);
-}
+        return view('PlanFormation::admin.dashboard', compact(
+            'nbModules',
+            'nbFormateurs',
+            'nbCompetences',
+            'nbBriefs',
+            'chartData'
+        ));
+    }
 
+    public function show($id)
+    {
+        // Show specific dashboard details if needed
+    }
 
+    public function edit($id)
+    {
+        // Edit dashboard settings if needed
+    }
+
+    public function update(Request $request, $id)
+    {
+        // Update dashboard settings if needed
+    }
 }

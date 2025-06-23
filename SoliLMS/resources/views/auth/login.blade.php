@@ -3,13 +3,13 @@
 @section('content')
 <div class="flex justify-center items-center min-h-[60vh]">
     <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
-        <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
+        <h2 class="text-2xl font-bold mb-6 text-center">Connexion</h2>
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
             <!-- Email -->
             <div class="mb-4">
-                <label for="email" class="block text-gray-700">Email Address</label>
+                <label for="email" class="block text-gray-700">Address Email</label>
                 <input id="email" type="email" name="email" value="{{ old('email') }}"
                     required autofocus
                     class="mt-1 w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -17,17 +17,17 @@
 
             <!-- Password -->
             <div class="mb-4">
-                <label for="password" class="block text-gray-700">Password</label>
+                <label for="password" class="block text-gray-700">Mot de pass </label>
                 <input id="password" type="password" name="password"
                     required
                     class="mt-1 w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
 
-            <!-- Remember Me -->
+            {{-- <!-- Remember Me -->
             <div class="mb-4 flex items-center">
                 <input type="checkbox" name="remember" id="remember" class="mr-2">
                 <label for="remember" class="text-sm text-gray-700">Remember Me</label>
-            </div>
+            </div> --}}
 
             <div class="mb-4">
                 <button type="submit"
@@ -35,14 +35,14 @@
                     Login
                 </button>
             </div>
-
+{{-- 
             <div class="text-center">
                 @if (Route::has('password.request'))
                     <a class="text-sm text-blue-600 hover:underline" href="{{ route('password.request') }}">
                         Forgot Your Password?
                     </a>
                 @endif
-            </div>
+            </div> --}}
         </form>
     </div>
 </div>
