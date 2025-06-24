@@ -49,9 +49,9 @@
             </tbody>
           </table>
 
-          {{-- <div class="text-end">
+          <div class="text-end">
             <a href="{{ route('formateurs.create') }}" class="btn btn-success">Ajouter un formateur</a>
-          </div> --}}
+          </div>
         </div>
       </div>
     </div>

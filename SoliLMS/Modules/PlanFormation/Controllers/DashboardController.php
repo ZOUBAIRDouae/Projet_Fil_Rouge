@@ -14,25 +14,25 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Basic counts
+
         $nbModules = Module::count();
         $nbFormateurs = Formateur::count();
         $nbCompetences = Competence::count();
         $nbBriefs = BriefProjet::count();
 
-        // Chart data for modules with briefs
+
         $modulesAvecBriefCount = Module::withCount('briefProjets')
             ->orderBy('brief_projets_count', 'desc')
             ->limit(10)
             ->get();
 
-        // Chart data for competences per module
+
         $competencesParModule = Module::withCount('competences')
             ->orderBy('competences_count', 'desc')
             ->limit(8)
             ->get();
 
-        // Brief status distribution
+        
         $briefsParStatut = BriefProjet::select('statut', DB::raw('count(*) as total'))
             ->groupBy('statut')
             ->get();
@@ -97,16 +97,16 @@ class DashboardController extends Controller
 
     public function show($id)
     {
-        // Show specific dashboard details if needed
+       
     }
 
     public function edit($id)
     {
-        // Edit dashboard settings if needed
+        
     }
 
     public function update(Request $request, $id)
     {
-        // Update dashboard settings if needed
+        
     }
 }
